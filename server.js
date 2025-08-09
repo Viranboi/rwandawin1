@@ -15,7 +15,8 @@ app.use(express.json());
 app.use(express.static(__dirname));
 
 // MongoDB Connection
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/rwandawin', {
+mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/rwandawin', {
+
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
