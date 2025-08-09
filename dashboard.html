@@ -1429,7 +1429,7 @@
         })
         .catch(error => {
           console.error('Error loading user data:', error);
-          showMessage('Error loading user data. Please refresh the page.', 'error');
+          showMessage('Error you have to deposit first. Please refresh the page.', 'error');
           // Set default balance if error occurs
           userBalance = 0;
           updateBalanceDisplay();
