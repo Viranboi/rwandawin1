@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RwandaWin - Admin Panel</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #00ffd5;
+            --secondary: #ff6b35;
+            --accent: #ffd700;
+            --dark: #0a0a0a;
+            --darker: #050505;
+            --medium: #1a1a1a;
+            --light: #2a2a2a;
+            --text: #ffffff;
+            --text-secondary: #cccccc;
+            --success: #00ff88;
+            --danger: #ff4757;
+            --warning: #ffa502;
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-accent: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --gradient-success: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            --gradient-warning: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            --gradient-danger: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            --gradient-betting: linear-gradient(135deg, #ff6b35 0%, #feca57 50%, #ff9ff3 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1.8rem;
+            font-weight: 900;
+            background: var(--gradient-betting);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .logo-image {
+            width: 55px;
+            height: 55px;
+            border-radius: 15px;
+            object-fit: cover;
+            box-shadow: 0 4px 15px rgba(0, 255, 213, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid rgba(0, 255, 213, 0.2);
+            filter: brightness(1.1) contrast(1.1);
+        }
+
+        .logo:hover .logo-image {
+            transform: scale(1.15) rotate(5deg);
+            box-shadow: 0 8px 25px rgba(0, 255, 213, 0.5);
+            border-color: var(--primary);
+            filter: brightness(1.2) contrast(1.2);
+        }
+
+        @keyframes logoGlow {
+            0% { 
+                box-shadow: 0 4px 15px rgba(0, 255, 213, 0.3);
+                border-color: rgba(0, 255, 213, 0.2);
+            }
+            50% { 
+                box-shadow: 0 8px 25px rgba(0, 255, 213, 0.5);
+                border-color: var(--primary);
+            }
+            100% { 
+                box-shadow: 0 4px 15px rgba(0, 255, 213, 0.3);
+                border-color: rgba(0, 255, 213, 0.2);
+            }
+        }
+
+        .logo-image {
+            animation: logoGlow 3s ease-in-out infinite;
+        }
+
+        .admin-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .admin-badge {
+            background: var(--gradient-danger);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .back-btn {
+            background: var(--gradient-accent);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(79, 172, 254, 0.4);
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .admin-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 2.5rem;
+            background: var(--gradient-betting);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 900;
+        }
+
+        /* Dashboard Cards */
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: var(--primary);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-icon {
+            font-size: 2rem;
+            color: var(--primary);
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .card-value {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+
+        .card-change {
+            font-size: 0.9rem;
+            color: var(--success);
+        }
+
+        /* Forms */
+        .form-section {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 1rem;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 255, 213, 0.1);
+        }
+
+        .submit-btn {
+            background: var(--gradient-success);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(67, 233, 123, 0.4);
+        }
+
+        /* Users Table */
+        .users-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .users-table th,
+        .users-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .users-table th {
+            background: rgba(255, 255, 255, 0.05);
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .users-table tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .user-email {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .user-balance {
+            color: var(--success);
+            font-weight: 700;
+        }
+
+        .edit-btn {
+            background: var(--gradient-accent);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .edit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.4);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+        }
+
+        .modal-content {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            color: var(--text);
+        }
+
+        .close {
+            color: var(--text-secondary);
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close:hover {
+            color: var(--danger);
+        }
+
+        /* Messages */
+        .message {
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            font-weight: 600;
+            text-align: center;
+            display: none;
+        }
+
+        .success {
+            background: rgba(67, 233, 123, 0.1);
+            border: 1px solid var(--success);
+            color: var(--success);
+        }
+
+        .error {
+            background: rgba(255, 107, 107, 0.1);
+            border: 1px solid var(--danger);
+            color: var(--danger);
+        }
+
+        /* Loading */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                padding: 0 1rem;
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .main-content {
+                padding: 1rem;
+            }
+
+            .dashboard-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .users-table {
+                font-size: 0.9rem;
+            }
+
+            .users-table th,
+            .users-table td {
+                padding: 0.8rem 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-crown"></i>
+                RwandaWin Admin
+            </div>
+            <div class="admin-info">
+                <div class="admin-badge">
+                    <i class="fas fa-shield-alt"></i> Admin
+                </div>
+                <button class="back-btn" onclick="window.location.href='dashboard.html'">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <h1 class="admin-title">
+            <i class="fas fa-cogs"></i> Admin Control Panel
+        </h1>
+
+        <div class="message" id="message"></div>
+
+        <!-- Dashboard Overview -->
+        <div class="dashboard-cards">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-users card-icon"></i>
+                    <div class="card-title">Total Users</div>
+                </div>
+                <div class="card-value" id="totalUsers">0</div>
+                <div class="card-change">Active users</div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-dollar-sign card-icon"></i>
+                    <div class="card-title">Total Balance</div>
+                </div>
+                <div class="card-value" id="totalBalance">0 Frw</div>
+                <div class="card-change">Platform balance</div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-plane card-icon"></i>
+                    <div class="card-title">Aviator Crash</div>
+                </div>
+                <div class="card-value" id="aviatorCrash">2.50x</div>
+                <div class="card-change">Current multiplier</div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-clock card-icon"></i>
+                    <div class="card-title">Last Update</div>
+                </div>
+                <div class="card-value" id="lastUpdate">-</div>
+                <div class="card-change">System status</div>
+            </div>
+        </div>
+
+        <!-- Aviator Controls -->
+        <div class="form-section">
+            <h2 class="section-title">
+                <i class="fas fa-plane"></i> Aviator Game Controls
+            </h2>
+            <form id="aviatorForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="crashPoint">Crash Point (Multiplier)</label>
+                        <input type="number" id="crashPoint" placeholder="e.g., 2.50" min="1.01" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="crashReason">Reason for Change</label>
+                        <select id="crashReason" required>
+                            <option value="">Select reason</option>
+                            <option value="Normal Game">Normal Game</option>
+                            <option value="High Risk">High Risk</option>
+                            <option value="Low Risk">Low Risk</option>
+                            <option value="Testing">Testing</option>
+                            <option value="Maintenance">Maintenance</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-save"></i> Update Crash Point
+                </button>
+            </form>
+        </div>
+
+        <!-- User Balance Management -->
+        <div class="form-section">
+            <h2 class="section-title">
+                <i class="fas fa-user-edit"></i> User Balance Management
+            </h2>
+            <form id="balanceForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="userEmail">User Email</label>
+                        <input type="email" id="userEmail" placeholder="Enter user email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="newBalance">New Balance (Frw)</label>
+                        <input type="number" id="newBalance" placeholder="Enter new balance" min="0" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="balanceReason">Reason</label>
+                        <select id="balanceReason" required>
+                            <option value="">Select reason</option>
+                            <option value="Deposit">Deposit</option>
+                            <option value="Withdrawal">Withdrawal</option>
+                            <option value="Bonus">Bonus</option>
+                            <option value="Penalty">Penalty</option>
+                            <option value="Correction">Correction</option>
+                            <option value="Game Win">Game Win</option>
+                            <option value="Game Loss">Game Loss</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-save"></i> Update User Balance
+                </button>
+            </form>
+        </div>
+
+        <!-- Users List -->
+        <div class="form-section">
+            <h2 class="section-title">
+                <i class="fas fa-users"></i> All Users
+            </h2>
+            <div style="overflow-x: auto;">
+                <table class="users-table">
+                    <thead>
+                        <tr>
+                            <th>Email</th>
+                            <th>Name</th>
+                            <th>Balance</th>
+                            <th>Status</th>
+                            <th>Last Updated</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usersTableBody">
+                        <tr>
+                            <td colspan="6" style="text-align: center; color: #b0b0b0; padding: 20px;">
+                                Loading users...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit User Modal -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Edit User Balance</h3>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            <form id="editForm">
+                <div class="form-group">
+                    <label for="editEmail">Email</label>
+                    <input type="email" id="editEmail" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="editBalance">Balance (Frw)</label>
+                    <input type="number" id="editBalance" min="0" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="editReason">Reason</label>
+                    <select id="editReason" required>
+                        <option value="">Select reason</option>
+                        <option value="Deposit">Deposit</option>
+                        <option value="Withdrawal">Withdrawal</option>
+                        <option value="Bonus">Bonus</option>
+                        <option value="Penalty">Penalty</option>
+                        <option value="Correction">Correction</option>
+                        <option value="Game Win">Game Win</option>
+                        <option value="Game Loss">Game Loss</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-save"></i> Save Changes
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'http://localhost:3000/api';
+
+        // Initialize admin panel
+        window.addEventListener('load', function() {
+            loadDashboardData();
+            loadUsers();
+        });
+
+        // Load dashboard data
+        async function loadDashboardData() {
+            try {
+                const [usersResponse, aviatorResponse] = await Promise.all([
+                    fetch(`${API_BASE_URL}/users`),
+                    fetch(`${API_BASE_URL}/aviator/crash-point`)
+                ]);
+
+                const users = await usersResponse.json();
+                const aviatorData = await aviatorResponse.json();
+
+                updateDashboardStats(users, aviatorData);
+            } catch (error) {
+                console.error('Error loading dashboard data:', error);
+                showMessage('Error loading dashboard data', 'error');
+            }
+        }
+
+        // Update dashboard statistics
+        function updateDashboardStats(users, aviatorData) {
+            const totalUsers = users.length;
+            const totalBalance = users.reduce((sum, user) => sum + (user.balance || 0), 0);
+            
+            document.getElementById('totalUsers').textContent = totalUsers;
+            document.getElementById('totalBalance').textContent = `${totalBalance.toFixed(0)} Frw`;
+            document.getElementById('aviatorCrash').textContent = `${aviatorData.crashPoint || 2.50}x`;
+            document.getElementById('lastUpdate').textContent = new Date().toLocaleTimeString();
+        }
+
+        // Load users
+        async function loadUsers() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/users`);
+                const users = await response.json();
+                updateUsersTable(users);
+            } catch (error) {
+                console.error('Error loading users:', error);
+                showMessage('Error loading users', 'error');
+            }
+        }
+
+        // Update users table
+        function updateUsersTable(users) {
+            const tbody = document.getElementById('usersTableBody');
+            
+            if (users.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: #b0b0b0; padding: 20px;">No users found</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = users.map(user => `
+                <tr>
+                    <td class="user-email">${user.email}</td>
+                    <td>${user.firstName ? `${user.firstName} ${user.lastName || ''}` : 'N/A'}</td>
+                    <td class="user-balance">${(user.balance || 0).toFixed(0)} Frw</td>
+                    <td>
+                        <span style="color: var(--success); font-weight: 600;">Active</span>
+                    </td>
+                    <td>${user.lastUpdated ? new Date(user.lastUpdated).toLocaleDateString() : 'N/A'}</td>
+                    <td>
+                        <button class="edit-btn" onclick="editUser('${user.email}', ${user.balance || 0})">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Aviator form submission
+        document.getElementById('aviatorForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const crashPoint = parseFloat(document.getElementById('crashPoint').value);
+            const reason = document.getElementById('crashReason').value;
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/aviator/crash-point`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        crashPoint,
+                        reason
+                    })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    showMessage(`Crash point updated to ${data.crashPoint}x successfully!`, 'success');
+                    document.getElementById('aviatorForm').reset();
+                    await loadDashboardData();
+                } else {
+                    const error = await response.json();
+                    showMessage(error.error || 'Failed to update crash point', 'error');
+                }
+            } catch (error) {
+                console.error('Error updating crash point:', error);
+                showMessage('Error updating crash point', 'error');
+            }
+        });
+
+        // Balance form submission
+        document.getElementById('balanceForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('userEmail').value;
+            const balance = parseFloat(document.getElementById('newBalance').value);
+            const reason = document.getElementById('balanceReason').value;
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/users/balance`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email,
+                        balance,
+                        balanceChange: balance,
+                        reason
+                    })
+                });
+
+                if (response.ok) {
+                    showMessage('User balance updated successfully!', 'success');
+                    document.getElementById('balanceForm').reset();
+                    await loadUsers();
+                    await loadDashboardData();
+                } else {
+                    const error = await response.json();
+                    showMessage(error.error || 'Failed to update balance', 'error');
+                }
+            } catch (error) {
+                console.error('Error updating balance:', error);
+                showMessage('Error updating balance', 'error');
+            }
+        });
+
+        // Edit user modal functions
+        function editUser(email, balance) {
+            document.getElementById('editEmail').value = email;
+            document.getElementById('editBalance').value = balance;
+            document.getElementById('editModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('editModal').style.display = 'none';
+        }
+
+        // Edit form submission
+        document.getElementById('editForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('editEmail').value;
+            const balance = parseFloat(document.getElementById('editBalance').value);
+            const reason = document.getElementById('editReason').value;
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/users/balance`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email,
+                        balance,
+                        balanceChange: balance,
+                        reason
+                    })
+                });
+
+                if (response.ok) {
+                    showMessage('User balance updated successfully!', 'success');
+                    closeModal();
+                    await loadUsers();
+                    await loadDashboardData();
+                } else {
+                    const error = await response.json();
+                    showMessage(error.error || 'Failed to update user balance', 'error');
+                }
+            } catch (error) {
+                console.error('Error updating user balance:', error);
+                showMessage('Error updating user balance', 'error');
+            }
+        });
+
+        // Show message function
+        function showMessage(text, type) {
+            const message = document.getElementById('message');
+            message.textContent = text;
+            message.className = `message ${type}`;
+            message.style.display = 'block';
+            
+            setTimeout(() => {
+                message.style.display = 'none';
+            }, 5000);
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('editModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // Auto-refresh data every 30 seconds
+        setInterval(() => {
+            loadDashboardData();
+            loadUsers();
+        }, 30000);
+    </script>
+</body>
+</html>

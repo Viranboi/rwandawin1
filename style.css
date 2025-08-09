@@ -1,0 +1,187 @@
+/* RwandaWin - Updated CSS */
+
+:root {
+    --primary-color: #1db954;
+    --dark-bg: #121212;
+    --light-bg: #1e1e1e;
+    --text-light: #f5f5f5;
+    --text-muted: #b3b3b3;
+    --accent-color: #ffcc00;
+    --danger: #ff4d4d;
+    --radius: 6px;
+    --transition: 0.3s;
+  }
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background-color: var(--dark-bg);
+    color: var(--text-light);
+    min-height: 100vh;
+    width: 100%;
+  }
+  
+  /* ========== HEADER ========== */
+  .top-bar {
+    position: sticky;
+    top: 0;
+    background-color: var(--light-bg);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 25px;
+    z-index: 1000;
+    border-bottom: 1px solid #333;
+  }
+  
+  .top-bar h1 {
+    color: var(--primary-color);
+    font-size: 24px;
+  }
+  
+  .top-bar a {
+    color: var(--primary-color);
+    margin-left: 15px;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  
+  .top-bar a:hover {
+    color: #1ed760;
+  }
+  
+  /* ========== NAVIGATION ========== */
+  nav {
+    display: flex;
+    justify-content: space-around;
+    background-color: #1a1a1a;
+    padding: 10px 0;
+    border-bottom: 1px solid #333;
+    flex-wrap: wrap;
+  }
+  
+  nav a {
+    color: var(--text-light);
+    font-weight: bold;
+    padding: 10px;
+    transition: var(--transition);
+  }
+  
+  nav a:hover {
+    color: var(--primary-color);
+  }
+  
+  /* ========== MAIN LAYOUT ========== */
+  .main-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 20px;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  
+  .left,
+  .right {
+    background-color: var(--light-bg);
+    padding: 20px;
+    border-radius: var(--radius);
+  }
+  
+  .left {
+    flex: 2;
+    min-width: 300px;
+  }
+  
+  .right {
+    flex: 1;
+    min-width: 250px;
+  }
+  
+  /* ========== HERO / WINNER ========== */
+  .hero-img {
+    width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+    border-radius: var(--radius);
+    margin-bottom: 15px;
+  }
+  
+  /* ========== BET OPTIONS ========== */
+  .bet-panel h3 {
+    margin-bottom: 10px;
+    color: var(--accent-color);
+  }
+  
+  .bet-option {
+    background-color: #2a2a2a;
+    margin: 10px 0;
+    padding: 10px 15px;
+    border-radius: var(--radius);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: var(--transition);
+  }
+  
+  .bet-option:hover {
+    background-color: #333;
+    cursor: pointer;
+  }
+  
+  /* ========== INFO SECTIONS ========== */
+  section.glass {
+    background-color: #1f1f1f;
+    margin: 30px 0;
+    padding: 20px;
+    border-radius: var(--radius);
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  }
+  
+  /* ========== FOOTER ========== */
+  footer {
+    background-color: #1a1a1a;
+    padding: 20px;
+    text-align: center;
+    color: var(--text-muted);
+    border-top: 1px solid #333;
+  }
+  
+  footer a {
+    margin: 0 8px;
+    color: var(--text-muted);
+    text-decoration: none;
+  }
+  
+  footer a:hover {
+    color: var(--primary-color);
+  }
+  
+  /* ========== RESPONSIVE ========== */
+  @media screen and (max-width: 768px) {
+    .main-content {
+      flex-direction: column;
+    }
+  
+    .top-bar {
+      flex-direction: column;
+      gap: 10px;
+      text-align: center;
+    }
+  
+    nav {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    nav a {
+      width: 100%;
+      text-align: center;
+    }
+  }
+  

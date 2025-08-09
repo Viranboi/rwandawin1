@@ -1,0 +1,2812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>RwandaWin Dashboard</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+      <style>
+      :root {
+        --primary: #00ffd5;
+        --secondary: #ff6b35;
+        --accent: #ffd700;
+        --dark: #0a0a0a;
+        --darker: #050505;
+        --medium: #1a1a1a;
+        --light: #2a2a2a;
+        --text: #ffffff;
+        --text-secondary: #cccccc;
+        --success: #00ff88;
+        --danger: #ff4757;
+        --warning: #ffa502;
+        --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        --gradient-accent: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        --gradient-success: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        --gradient-warning: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        --gradient-danger: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+        --gradient-betting: linear-gradient(135deg, #ff6b35 0%, #feca57 50%, #ff9ff3 100%);
+      }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Animated Background */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 80%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(240, 147, 251, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(79, 172, 254, 0.1) 0%, transparent 50%);
+      z-index: -1;
+      animation: float 8s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(1deg); }
+    }
+
+    /* Header */
+    header {
+      background: rgba(10, 10, 10, 0.98);
+      backdrop-filter: blur(25px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      padding: 1.2rem 0;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .header-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .logo:hover {
+      transform: translateY(-2px);
+    }
+
+    .logo-image {
+      width: 55px;
+      height: 55px;
+      border-radius: 15px;
+      object-fit: cover;
+      box-shadow: 0 4px 15px rgba(0, 255, 213, 0.3);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 2px solid rgba(0, 255, 213, 0.2);
+      filter: brightness(1.1) contrast(1.1);
+    }
+
+    .logo:hover .logo-image {
+      transform: scale(1.15) rotate(5deg);
+      box-shadow: 0 8px 25px rgba(0, 255, 213, 0.5);
+      border-color: var(--primary);
+      filter: brightness(1.2) contrast(1.2);
+    }
+
+    .logo h1 {
+      font-size: 2.2rem;
+      font-weight: 900;
+      background: var(--gradient-betting);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      text-shadow: 0 2px 10px rgba(0, 255, 213, 0.3);
+      letter-spacing: 1px;
+    }
+
+    .logo:hover h1 {
+      transform: scale(1.05);
+      filter: drop-shadow(0 0 15px rgba(0, 255, 213, 0.5));
+      letter-spacing: 1.5px;
+    }
+
+    @keyframes logoGlow {
+      0% { 
+        box-shadow: 0 4px 15px rgba(0, 255, 213, 0.3);
+        border-color: rgba(0, 255, 213, 0.2);
+        transform: scale(1);
+      }
+      50% { 
+        box-shadow: 0 8px 25px rgba(0, 255, 213, 0.5);
+        border-color: var(--primary);
+        transform: scale(1.02);
+      }
+      100% { 
+        box-shadow: 0 4px 15px rgba(0, 255, 213, 0.3);
+        border-color: rgba(0, 255, 213, 0.2);
+        transform: scale(1);
+      }
+    }
+
+    .logo-image {
+      animation: logoGlow 4s ease-in-out infinite;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .balance-display {
+      background: linear-gradient(45deg, var(--primary), #00b8a9);
+      color: var(--dark);
+      padding: 12px 20px;
+      border-radius: 25px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      box-shadow: 0 4px 15px rgba(0, 255, 213, 0.3);
+    }
+
+    .user-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+      letter-spacing: 0.3px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.6s ease;
+    }
+
+    .btn:hover::before {
+      left: 100%;
+    }
+
+    .btn-primary {
+      background: var(--gradient-success);
+      color: white;
+      box-shadow: 0 4px 15px rgba(67, 233, 123, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(67, 233, 123, 0.4);
+      background: linear-gradient(135deg, #2ed573 0%, #7bed9f 100%);
+    }
+
+    .btn-secondary {
+      background: var(--gradient-accent);
+      color: white;
+      box-shadow: 0 4px 15px rgba(79, 172, 254, 0.3);
+    }
+
+    .btn-secondary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(79, 172, 254, 0.4);
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    }
+
+    .btn-danger {
+      background: var(--gradient-danger);
+      color: white;
+      box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+    }
+
+    .btn-danger:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+      background: linear-gradient(135deg, #ff4757 0%, #ff6b6b 100%);
+    }
+
+    /* Main Content */
+    .dashboard-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    /* Quick Stats */
+    .quick-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .stat-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      padding: 20px;
+      text-align: center;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 255, 213, 0.2);
+    }
+
+    .stat-card i {
+      font-size: 2rem;
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+
+    .stat-number {
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--text);
+      margin-bottom: 5px;
+    }
+
+    .stat-label {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      padding: 12px 25px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 25px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 600;
+    }
+
+    .tab-btn.active {
+      background: var(--primary);
+      color: var(--dark);
+      border-color: var(--primary);
+    }
+
+    .tab-btn:hover {
+      background: var(--primary);
+      color: var(--dark);
+    }
+
+    /* Tab Content */
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Games Grid */
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    /* Search and Filter */
+    .search-filter-container {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .search-box {
+      width: 100%;
+      padding: 15px 20px;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text);
+      font-size: 1rem;
+      margin-bottom: 15px;
+    }
+
+    .search-box:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 20px rgba(0, 255, 213, 0.2);
+    }
+
+    .filter-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      padding: 8px 16px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 0.9rem;
+    }
+
+    .filter-btn.active {
+      background: var(--primary);
+      color: var(--dark);
+      border-color: var(--primary);
+    }
+
+    .filter-btn:hover {
+      background: var(--primary);
+      color: var(--dark);
+    }
+
+    /* Game Categories */
+    .game-category {
+      margin-bottom: 40px;
+    }
+
+    .category-title {
+      font-size: 1.5rem;
+      color: var(--primary);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .games-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+
+    /* Provider Badges */
+    .provider-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(0, 0, 0, 0.8);
+      color: var(--text);
+      padding: 5px 10px;
+      border-radius: 15px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .game-stats {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+      font-size: 0.9rem;
+    }
+
+    .game-rating {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .game-players {
+      color: var(--text-secondary);
+    }
+
+    /* Sports and Live Sections */
+    .sport-section, .live-section {
+      margin-bottom: 40px;
+    }
+
+    .matches-grid, .live-matches-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .match-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      padding: 20px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .match-card:hover {
+      border-color: var(--primary);
+      box-shadow: 0 5px 15px rgba(0, 255, 213, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .match-card.live {
+      border-color: var(--danger);
+      background: rgba(255, 71, 87, 0.05);
+    }
+
+    .match-card.live::before {
+      content: 'LIVE';
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: var(--danger);
+      color: white;
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      animation: pulse 2s infinite;
+    }
+
+    .match-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .match-teams {
+      font-weight: 700;
+      color: var(--text);
+      font-size: 1.1rem;
+    }
+
+    .match-time {
+      color: var(--primary);
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .match-time.live {
+      color: var(--danger);
+      animation: pulse 2s infinite;
+    }
+
+    .match-score {
+      color: var(--text-secondary);
+      margin-bottom: 15px;
+      font-size: 0.9rem;
+    }
+
+    .betting-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 10px;
+    }
+
+    .bet-option {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 12px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .bet-option:hover {
+      background: var(--primary);
+      color: var(--dark);
+      transform: translateY(-2px);
+    }
+
+    .bet-odds {
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-bottom: 5px;
+    }
+
+    .bet-label {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+
+    .bet-option:hover .bet-label {
+      color: var(--dark);
+    }
+
+    /* Live match specific styles */
+    .live-match-card {
+      background: linear-gradient(135deg, rgba(255, 71, 87, 0.1) 0%, rgba(255, 71, 87, 0.05) 100%);
+      border: 2px solid var(--danger);
+    }
+
+    .live-match-card .match-time {
+      color: var(--danger);
+      font-weight: 700;
+    }
+
+    .live-match-card .bet-option:hover {
+      background: var(--danger);
+      color: white;
+    }
+
+    .game-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+    }
+
+    .game-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 35px rgba(0, 255, 213, 0.3);
+      border-color: var(--primary);
+    }
+
+    .game-image {
+      height: 180px;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+
+    .game-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.7));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .game-card:hover .game-overlay {
+      opacity: 1;
+    }
+
+    .play-btn {
+      background: var(--primary);
+      color: var(--dark);
+      padding: 12px 25px;
+      border-radius: 25px;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .play-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 5px 15px rgba(0, 255, 213, 0.5);
+    }
+
+    .game-info {
+      padding: 20px;
+    }
+
+    .game-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .game-description {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+
+    /* Sports Betting */
+    .matches-container {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .match-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 15px;
+      transition: all 0.3s ease;
+    }
+
+    .match-card:hover {
+      border-color: var(--primary);
+      box-shadow: 0 5px 15px rgba(0, 255, 213, 0.2);
+    }
+
+    .match-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .match-teams {
+      font-weight: 700;
+      color: var(--text);
+      font-size: 1.1rem;
+    }
+
+    .match-time {
+      color: var(--primary);
+      font-size: 0.9rem;
+    }
+
+    .betting-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 10px;
+    }
+
+    .bet-option {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 15px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .bet-option:hover {
+      background: var(--primary);
+      color: var(--dark);
+      transform: translateY(-2px);
+    }
+
+    .bet-odds {
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-bottom: 5px;
+    }
+
+    .bet-label {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+
+    /* Betting Slip */
+    .betting-slip {
+      position: fixed;
+      right: 20px;
+      top: 100px;
+      width: 300px;
+      background: var(--medium);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      padding: 20px;
+      max-height: 500px;
+      overflow-y: auto;
+      backdrop-filter: blur(10px);
+    }
+
+    .slip-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .slip-item {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 10px;
+    }
+
+    .slip-teams {
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
+    .slip-bet {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    .slip-odds {
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .slip-total {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 15px;
+      margin-top: 15px;
+      display: flex;
+      justify-content: space-between;
+      font-weight: 700;
+    }
+
+    .place-bet-btn {
+      width: 100%;
+      background: var(--success);
+      color: var(--dark);
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+
+    .place-bet-btn:hover {
+      background: #00e676;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .header-container {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .user-info {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .betting-slip {
+        position: static;
+        width: 100%;
+        margin-top: 20px;
+      }
+
+      .games-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .betting-options {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Loading Animation */
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: var(--primary);
+      animation: spin 1s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Success/Error Messages */
+    .message {
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+
+    .success {
+      background: rgba(0, 255, 136, 0.1);
+      border: 1px solid var(--success);
+      color: var(--success);
+    }
+
+    .error {
+      background: rgba(255, 71, 87, 0.1);
+      border: 1px solid var(--danger);
+      color: var(--danger);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <div class="logo">
+        <img src="https://logo.com/image-cdn/images/kts928pd/production/d92e5caeed919a7806ae12bea455771f419b1a10-731x731.png?w=1080&q=72&fm=webp" alt="RwandaWin Logo" class="logo-image">
+        <h1>RwandaWin</h1>
+      </div>
+      <div class="user-info">
+        <div class="balance-display" id="balanceDisplay">
+          <i class="fas fa-coins"></i> Balance: Loading...
+        </div>
+        <div class="user-actions">
+          <button class="btn btn-primary" onclick="window.location.href='chat.html'">
+            <i class="fas fa-plus"></i> Deposit
+          </button>
+          
+          <button class="btn btn-secondary" onclick="window.location.href='chat.html'">
+            <i class="fas fa-minus"></i> Withdraw
+          </button>
+          
+          <button class="btn btn-danger" onclick="logout()">
+            <i class="fas fa-sign-out-alt"></i> Logout
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="dashboard-container">
+    <div id="messageContainer"></div>
+
+    <div class="quick-stats">
+      <div class="stat-card">
+        <i class="fas fa-coins"></i>
+        <div class="stat-number" id="userBalance">0 Frw</div>
+        <div class="stat-label">Your Balance</div>
+      </div>
+      <div class="stat-card">
+        <i class="fas fa-trophy"></i>
+        <div class="stat-number" id="totalWins">0</div>
+        <div class="stat-label">Total Wins</div>
+      </div>
+      <div class="stat-card">
+        <i class="fas fa-chart-line"></i>
+        <div class="stat-number" id="winRate">0%</div>
+        <div class="stat-label">Win Rate</div>
+      </div>
+      <div class="stat-card">
+        <i class="fas fa-fire"></i>
+        <div class="stat-number" id="activeBets">0</div>
+        <div class="stat-label">Active Bets</div>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" onclick="showTab('casino')">
+        <i class="fas fa-dice"></i> Casino Games (500+)
+      </button>
+      <button class="tab-btn" onclick="showTab('slots')">
+        <i class="fas fa-slot-machine"></i> Slots (200+)
+      </button>
+      <button class="tab-btn" onclick="showTab('live-casino')">
+        <i class="fas fa-video"></i> Live Casino (50+)
+      </button>
+      <button class="tab-btn" onclick="showTab('table-games')">
+        <i class="fas fa-table"></i> Table Games (100+)
+      </button>
+      <button class="tab-btn" onclick="showTab('sports')">
+        <i class="fas fa-futbol"></i> Sports Betting
+      </button>
+      <button class="tab-btn" onclick="showTab('live')">
+        <i class="fas fa-broadcast-tower"></i> Live Matches
+      </button>
+      <button class="tab-btn" onclick="showTab('virtual')">
+        <i class="fas fa-gamepad"></i> Virtual Games
+      </button>
+    </div>
+
+    <!-- Casino Games Tab -->
+    <div id="casino" class="tab-content active">
+      <h2 style="color: var(--primary); margin-bottom: 20px;">
+        <i class="fas fa-dice"></i> Casino Games (500+ Games)
+      </h2>
+      
+      <!-- Search and Filter -->
+      <div class="search-filter-container">
+        <input type="text" class="search-box" id="gameSearch" placeholder="Search games..." onkeyup="filterGames()">
+        <div class="filter-buttons">
+          <button class="filter-btn active" onclick="filterByCategory('all')">All Games</button>
+          <button class="filter-btn" onclick="filterByCategory('popular')">Popular</button>
+          <button class="filter-btn" onclick="filterByCategory('new')">New Games</button>
+          <button class="filter-btn" onclick="filterByCategory('jackpot')">Jackpot</button>
+          <button class="filter-btn" onclick="filterByCategory('megaways')">Megaways</button>
+          <button class="filter-btn" onclick="filterByCategory('bonus')">Bonus Buy</button>
+          <button class="filter-btn" onclick="filterByCategory('volatility')">High Volatility</button>
+        </div>
+      </div>
+
+      <!-- Popular Games -->
+      <div class="game-category">
+        <h3 class="category-title">
+          <i class="fas fa-fire"></i> Popular Games
+        </h3>
+        <div class="games-row" id="popularGames">
+          <!-- Games will be loaded dynamically -->
+        </div>
+      </div>
+
+      <!-- New Releases -->
+      <div class="game-category">
+        <h3 class="category-title">
+          <i class="fas fa-star"></i> New Releases
+        </h3>
+        <div class="games-row" id="newGames">
+          <!-- Games will be loaded dynamically -->
+        </div>
+      </div>
+
+      <!-- Jackpot Games -->
+      <div class="game-category">
+        <h3 class="category-title">
+          <i class="fas fa-trophy"></i> Jackpot Games
+        </h3>
+        <div class="games-row" id="jackpotGames">
+          <!-- Games will be loaded dynamically -->
+        </div>
+      </div>
+
+      <!-- Megaways Slots -->
+      <div class="game-category">
+        <h3 class="category-title">
+          <i class="fas fa-infinity"></i> Megaways Slots
+        </h3>
+        <div class="games-row" id="megawaysGames">
+          <!-- Games will be loaded dynamically -->
+        </div>
+      </div>
+
+      <!-- Bonus Buy Games -->
+      <div class="game-category">
+        <h3 class="category-title">
+          <i class="fas fa-gift"></i> Bonus Buy Games
+        </h3>
+        <div class="games-row" id="bonusBuyGames">
+          <!-- Games will be loaded dynamically -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Slots Tab -->
+    <div id="slots" class="tab-content">
+      <h2 style="color: var(--primary); margin-bottom: 20px;">
+        <i class="fas fa-slot-machine"></i> Slot Games (200+ Games)
+      </h2>
+      
+      <div class="search-filter-container">
+        <input type="text" class="search-box" id="slotSearch" placeholder="Search slots..." onkeyup="filterSlots()">
+        <div class="filter-buttons">
+          <button class="filter-btn active" onclick="filterBySlotType('all')">All Slots</button>
+          <button class="filter-btn" onclick="filterBySlotType('classic')">Classic</button>
+          <button class="filter-btn" onclick="filterBySlotType('video')">Video Slots</button>
+          <button class="filter-btn" onclick="filterBySlotType('3d')">3D Slots</button>
+          <button class="filter-btn" onclick="filterBySlotType('fruit')">Fruit Slots</button>
+          <button class="filter-btn" onclick="filterBySlotType('adventure')">Adventure</button>
+        </div>
+      </div>
+
+      <div class="games-grid" id="slotsGrid">
+        <!-- Slots will be loaded dynamically -->
+      </div>
+    </div>
+
+    <!-- Live Casino Tab -->
+    <div id="live-casino" class="tab-content">
+      <h2 style="color: var(--primary); margin-bottom: 20px;">
+        <i class="fas fa-video"></i> Live Casino (50+ Games)
+      </h2>
+      
+      <div class="search-filter-container">
+        <input type="text" class="search-box" id="liveSearch" placeholder="Search live games..." onkeyup="filterLiveGames()">
+        <div class="filter-buttons">
+          <button class="filter-btn active" onclick="filterByLiveType('all')">All Live Games</button>
+          <button class="filter-btn" onclick="filterByLiveType('blackjack')">Live Blackjack</button>
+          <button class="filter-btn" onclick="filterByLiveType('roulette')">Live Roulette</button>
+          <button class="filter-btn" onclick="filterByLiveType('baccarat')">Live Baccarat</button>
+          <button class="filter-btn" onclick="filterByLiveType('poker')">Live Poker</button>
+          <button class="filter-btn" onclick="filterByLiveType('game-shows')">Game Shows</button>
+        </div>
+      </div>
+
+      <div class="games-grid" id="liveCasinoGrid">
+        <!-- Live casino games will be loaded dynamically -->
+      </div>
+    </div>
+
+    <!-- Table Games Tab -->
+    <div id="table-games" class="tab-content">
+      <h2 style="color: var(--primary); margin-bottom: 20px;">
+        <i class="fas fa-table"></i> Table Games (100+ Games)
+      </h2>
+      
+      <div class="search-filter-container">
+        <input type="text" class="search-box" id="tableSearch" placeholder="Search table games..." onkeyup="filterTableGames()">
+        <div class="filter-buttons">
+          <button class="filter-btn active" onclick="filterByTableType('all')">All Table Games</button>
+          <button class="filter-btn" onclick="filterByTableType('blackjack')">Blackjack</button>
+          <button class="filter-btn" onclick="filterByTableType('roulette')">Roulette</button>
+          <button class="filter-btn" onclick="filterByTableType('baccarat')">Baccarat</button>
+          <button class="filter-btn" onclick="filterByTableType('poker')">Poker</button>
+          <button class="filter-btn" onclick="filterByTableType('craps')">Craps</button>
+          <button class="filter-btn" onclick="filterByTableType('sic-bo')">Sic Bo</button>
+        </div>
+      </div>
+
+      <div class="games-grid" id="tableGamesGrid">
+        <!-- Table games will be loaded dynamically -->
+      </div>
+    </div>
+
+    <!-- Sports Betting Tab -->
+    <div id="sports" class="tab-content">
+      <h2 style="color: var(--primary); margin-bottom: 20px;">
+        <i class="fas fa-futbol"></i> Sports Betting (500+ Events)
+      </h2>
+      
+      <!-- Sports Search and Filter -->
+      <div class="search-filter-container">
+        <input type="text" class="search-box" id="sportsSearch" placeholder="Search sports events..." onkeyup="filterSports()">
+        <div class="filter-buttons">
+          <button class="filter-btn active" onclick="filterBySport('all')">All Sports</button>
+          <button class="filter-btn" onclick="filterBySport('football')">Football</button>
+          <button class="filter-btn" onclick="filterBySport('basketball')">Basketball</button>
+          <button class="filter-btn" onclick="filterBySport('tennis')">Tennis</button>
+          <button class="filter-btn" onclick="filterBySport('cricket')">Cricket</button>
+          <button class="filter-btn" onclick="filterBySport('baseball')">Baseball</button>
+          <button class="filter-btn" onclick="filterBySport('hockey')">Hockey</button>
+          <button class="filter-btn" onclick="filterBySport('rugby')">Rugby</button>
+          <button class="filter-btn" onclick="filterBySport('volleyball')">Volleyball</button>
+          <button class="filter-btn" onclick="filterBySport('esports')">Esports</button>
+        </div>
+      </div>
+
+      <!-- Football Section -->
+      <div class="sport-section" id="football-section">
+        <h3 class="category-title">
+          <i class="fas fa-futbol"></i> Football (150+ Matches)
+        </h3>
+        <div class="matches-grid" id="football-matches">
+          <!-- Football matches will be loaded dynamically -->
+        </div>
+      </div>
+
+      <!-- Basketball Section -->
+      <div class="sport-section" id="basketball-section">
+        <h3 class="category-title">
+          <i class="fas fa-basketball-ball"></i> Basketball (80+ Matches)
+        </h3>
+        <div class="matches-grid" id="basketball-matches">
+          <!-- Basketball matches will be loaded dynamically -->
+        </div>
+      </div>
+
+      <!-- Tennis Section -->
+      <div class="sport-section" id="tennis-section">
+        <h3 class="category-title">
+          <i class="fas fa-table-tennis"></i> Tennis (60+ Matches)
+        </h3>
+        <div class="matches-grid" id="tennis-matches">
+          <!-- Tennis matches will be loaded dynamically -->
+        </div>
+      </div>
+
+      <!-- Cricket Section -->
+      <div class="sport-section" id="cricket-section">
+        <h3 class="category-title">
+          <i class="fas fa-cricket"></i> Cricket (40+ Matches)
+        </h3>
+        <div class="matches-grid" id="cricket-matches">
+          <!-- Cricket matches will be loaded dynamically -->
+        </div>
+      </div>
+
+      <!-- Baseball Section -->
+      <div class="sport-section" id="baseball-section">
+        <h3 class="category-title">
+          <i class="fas fa-baseball-ball"></i> Baseball (50+ Matches)
+        </h3>
+        <div class="matches-grid" id="baseball-matches">
+          <!-- Baseball matches will be loaded dynamically -->
+        </div>
+      </div>
+
+      <!-- Hockey Section -->
+      <div class="sport-section" id="hockey-section">
+        <h3 class="category-title">
+          <i class="fas fa-hockey-puck"></i> Hockey (30+ Matches)
+        </h3>
+        <div class="matches-grid" id="hockey-matches">
+          <!-- Hockey matches will be loaded dynamically -->
+        </div>
+      </div>
+
+      <!-- Rugby Section -->
+      <div class="sport-section" id="rugby-section">
+        <h3 class="category-title">
+          <i class="fas fa-rugby-ball"></i> Rugby (25+ Matches)
+        </h3>
+        <div class="matches-grid" id="rugby-matches">
+          <!-- Rugby matches will be loaded dynamically -->
+        </div>
+      </div>
+
+      <!-- Volleyball Section -->
+      <div class="sport-section" id="volleyball-section">
+        <h3 class="category-title">
+          <i class="fas fa-volleyball-ball"></i> Volleyball (20+ Matches)
+        </h3>
+        <div class="matches-grid" id="volleyball-matches">
+          <!-- Volleyball matches will be loaded dynamically -->
+        </div>
+      </div>
+
+      <!-- Esports Section -->
+      <div class="sport-section" id="esports-section">
+        <h3 class="category-title">
+          <i class="fas fa-gamepad"></i> Esports (35+ Matches)
+        </h3>
+        <div class="matches-grid" id="esports-matches">
+          <!-- Esports matches will be loaded dynamically -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Live Matches Tab -->
+    <div id="live" class="tab-content">
+      <h2 style="color: var(--primary); margin-bottom: 20px;">
+        <i class="fas fa-broadcast-tower"></i> Live Matches (200+ Events)
+      </h2>
+      
+      <!-- Live Search and Filter -->
+      <div class="search-filter-container">
+        <input type="text" class="search-box" id="liveSearch" placeholder="Search live events..." onkeyup="filterLiveEvents()">
+        <div class="filter-buttons">
+          <button class="filter-btn active" onclick="filterByLiveSport('all')">All Live</button>
+          <button class="filter-btn" onclick="filterByLiveSport('football')">Live Football</button>
+          <button class="filter-btn" onclick="filterByLiveSport('basketball')">Live Basketball</button>
+          <button class="filter-btn" onclick="filterByLiveSport('tennis')">Live Tennis</button>
+          <button class="filter-btn" onclick="filterByLiveSport('cricket')">Live Cricket</button>
+          <button class="filter-btn" onclick="filterByLiveSport('baseball')">Live Baseball</button>
+          <button class="filter-btn" onclick="filterByLiveSport('hockey')">Live Hockey</button>
+          <button class="filter-btn" onclick="filterByLiveSport('rugby')">Live Rugby</button>
+          <button class="filter-btn" onclick="filterByLiveSport('volleyball')">Live Volleyball</button>
+          <button class="filter-btn" onclick="filterByLiveSport('esports')">Live Esports</button>
+        </div>
+      </div>
+
+      <!-- Live Football Section -->
+      <div class="live-section" id="live-football-section">
+        <h3 class="category-title">
+          <i class="fas fa-futbol"></i> Live Football (60+ Matches)
+        </h3>
+        <div class="live-matches-grid" id="live-football-matches">
+          <!-- Live football matches will be loaded dynamically -->
+        </div>
+      </div>
+
+      <!-- Live Basketball Section -->
+      <div class="live-section" id="live-basketball-section">
+        <h3 class="category-title">
+          <i class="fas fa-basketball-ball"></i> Live Basketball (40+ Matches)
+        </h3>
+        <div class="live-matches-grid" id="live-basketball-matches">
+          <!-- Live basketball matches will be loaded dynamically -->
+        </div>
+      </div>
+
+      <!-- Live Tennis Section -->
+      <div class="live-section" id="live-tennis-section">
+        <h3 class="category-title">
+          <i class="fas fa-table-tennis"></i> Live Tennis (30+ Matches)
+        </h3>
+        <div class="live-matches-grid" id="live-tennis-matches">
+          <!-- Live tennis matches will be loaded dynamically -->
+        </div>
+      </div>
+
+      <!-- Live Cricket Section -->
+      <div class="live-section" id="live-cricket-section">
+        <h3 class="category-title">
+          <i class="fas fa-cricket"></i> Live Cricket (25+ Matches)
+        </h3>
+        <div class="live-matches-grid" id="live-cricket-matches">
+          <!-- Live cricket matches will be loaded dynamically -->
+        </div>
+      </div>
+
+      <!-- Live Baseball Section -->
+      <div class="live-section" id="live-baseball-section">
+        <h3 class="category-title">
+          <i class="fas fa-baseball-ball"></i> Live Baseball (20+ Matches)
+        </h3>
+        <div class="live-matches-grid" id="live-baseball-matches">
+          <!-- Live baseball matches will be loaded dynamically -->
+        </div>
+      </div>
+
+      <!-- Live Hockey Section -->
+      <div class="live-section" id="live-hockey-section">
+        <h3 class="category-title">
+          <i class="fas fa-hockey-puck"></i> Live Hockey (15+ Matches)
+        </h3>
+        <div class="live-matches-grid" id="live-hockey-matches">
+          <!-- Live hockey matches will be loaded dynamically -->
+        </div>
+      </div>
+
+      <!-- Live Rugby Section -->
+      <div class="live-section" id="live-rugby-section">
+        <h3 class="category-title">
+          <i class="fas fa-rugby-ball"></i> Live Rugby (10+ Matches)
+        </h3>
+        <div class="live-matches-grid" id="live-rugby-matches">
+          <!-- Live rugby matches will be loaded dynamically -->
+        </div>
+      </div>
+
+      <!-- Live Volleyball Section -->
+      <div class="live-section" id="live-volleyball-section">
+        <h3 class="category-title">
+          <i class="fas fa-volleyball-ball"></i> Live Volleyball (8+ Matches)
+        </h3>
+        <div class="live-matches-grid" id="live-volleyball-matches">
+          <!-- Live volleyball matches will be loaded dynamically -->
+        </div>
+      </div>
+
+      <!-- Live Esports Section -->
+      <div class="live-section" id="live-esports-section">
+        <h3 class="category-title">
+          <i class="fas fa-gamepad"></i> Live Esports (12+ Matches)
+        </h3>
+        <div class="live-matches-grid" id="live-esports-matches">
+          <!-- Live esports matches will be loaded dynamically -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Virtual Games Tab -->
+    <div id="virtual" class="tab-content">
+      <h2 style="color: var(--primary); margin-bottom: 20px;">Virtual Games</h2>
+      <div class="games-grid">
+        <div class="game-card" onclick="playGame('virtual-football')">
+          <div class="game-image" style="background-image: url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');">
+            <div class="game-overlay">
+              <button class="play-btn">Play Now</button>
+            </div>
+          </div>
+          <div class="game-info">
+            <div class="game-title">Virtual Football</div>
+            <div class="game-description">Computer-generated football matches with realistic odds and fast results.</div>
+          </div>
+        </div>
+
+        <div class="game-card" onclick="playGame('virtual-basketball')">
+          <div class="game-image" style="background-image: url('https://images.unsplash.com/photo-1511882150382-421056c89033?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80');">
+            <div class="game-overlay">
+              <button class="play-btn">Play Now</button>
+            </div>
+          </div>
+          <div class="game-info">
+            <div class="game-title">Virtual Basketball</div>
+            <div class="game-description">Virtual basketball games with multiple betting options and quick results.</div>
+          </div>
+        </div>
+
+        <div class="game-card" onclick="playGame('virtual-racing')">
+          <div class="game-image" style="background-image: url('https://images.unsplash.com/photo-1591637333184-19aa84b3e01f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80');">
+            <div class="game-overlay">
+              <button class="play-btn">Play Now</button>
+            </div>
+          </div>
+          <div class="game-info">
+            <div class="game-title">Virtual Racing</div>
+            <div class="game-description">Exciting virtual horse and dog racing with live commentary.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Betting Slip -->
+  <div class="betting-slip" id="bettingSlip" style="display: none;">
+    <div class="slip-header">
+      <span>Betting Slip</span>
+      <button onclick="clearSlip()" style="background: none; border: none; color: var(--danger); cursor: pointer;">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div id="slipItems"></div>
+    <div class="slip-total">
+      <span>Total Odds:</span>
+      <span id="totalOdds">0.00</span>
+    </div>
+    <div class="slip-total">
+      <span>Potential Win:</span>
+      <span id="potentialWin">0 Frw</span>
+    </div>
+    <input type="number" id="betAmount" placeholder="Enter bet amount (Frw)" style="width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.05); color: var(--text);">
+    <button class="place-bet-btn" onclick="placeBet()">Place Bet</button>
+  </div>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyAE-1WMAGCEWD7D1hm_QS6fxQKFEkYU168",
+      authDomain: "rwandabet-8296f.firebaseapp.com",
+      projectId: "rwandabet-8296f",
+      storageBucket: "rwandabet-8296f.appspot.com",
+      messagingSenderId: "1059346620817",
+      appId: "1:1059346620817:web:d55765a42a2d910b13fa30",
+      measurementId: "G-3VLM591HJH"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    let currentUser = null;
+    let userBalance = 0;
+    let bettingSlip = [];
+    let totalOdds = 1;
+
+    // Check authentication
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        currentUser = user;
+        loadUserData();
+        listenForBalanceUpdates(); // Start listening for balance updates
+      } else {
+        window.location.href = 'login.html';
+      }
+    });
+
+    function loadUserData() {
+      const email = currentUser.email;
+      
+      // Fetch user data from our API
+      fetch(`http://localhost:3000/api/users/${email}`)
+        .then(response => {
+          if (response.ok) {
+            return response.json();
+          } else if (response.status === 404) {
+            // User doesn't exist, create them
+            return createUserDocument(email);
+          } else {
+            throw new Error('Failed to fetch user data');
+          }
+        })
+        .then(data => {
+          // Use currentBalance if available, otherwise fall back to balance
+          userBalance = data.currentBalance || data.balance || 0;
+          updateBalanceDisplay();
+          updateStats();
+          
+          // Check if there were any balance updates while user was offline
+          checkOfflineBalanceUpdates(data);
+        })
+        .catch(error => {
+          console.error('Error loading user data:', error);
+          showMessage('Error loading user data. Please refresh the page.', 'error');
+          // Set default balance if error occurs
+          userBalance = 0;
+          updateBalanceDisplay();
+        });
+    }
+
+    // Function to create user document if it doesn't exist
+    function createUserDocument(email) {
+      const userData = {
+        email: email,
+        firstName: currentUser.displayName?.split(' ')[0] || '',
+        lastName: currentUser.displayName?.split(' ').slice(1).join(' ') || '',
+        balance: 1000,
+        currentBalance: 1000,
+        balanceHistory: [{
+          amount: 1000,
+          change: 1000,
+          reason: 'Welcome Bonus',
+          updatedBy: 'System',
+          timestamp: new Date()
+        }]
+      };
+
+      return fetch('http://localhost:3000/api/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(userData)
+      })
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error('Failed to create user');
+        }
+      })
+      .then(data => {
+        userBalance = data.user.currentBalance;
+        updateBalanceDisplay();
+        updateStats();
+        showMessage('Welcome! Your account has been created with 1000 Frw bonus.', 'success');
+        return data.user;
+      })
+      .catch(error => {
+        console.error('Error creating user document:', error);
+        // Set default balance if creation fails
+        userBalance = 0;
+        updateBalanceDisplay();
+        updateStats();
+        return { currentBalance: 0, balance: 0 };
+      });
+    }
+
+    // Function to check for offline balance updates
+    function checkOfflineBalanceUpdates(userData) {
+      const lastLogin = userData.lastLogin || new Date(0);
+      const lastBalanceUpdate = userData.lastUpdated || new Date(0);
+      
+      // If there was a balance update after last login, show notification
+      if (lastBalanceUpdate > lastLogin) {
+        const balanceHistory = userData.balanceHistory || [];
+        if (balanceHistory.length > 1) {
+          const lastUpdate = balanceHistory[balanceHistory.length - 1];
+          const previousUpdate = balanceHistory[balanceHistory.length - 2];
+          const balanceChange = lastUpdate.change || 0;
+          const reason = lastUpdate.reason || 'Balance Update';
+          
+          if (balanceChange !== 0) {
+            showBalanceUpdateNotification(balanceChange, reason);
+          }
+        }
+      }
+    }
+
+    // Listen for real-time balance updates
+    function listenForBalanceUpdates() {
+      const email = currentUser.email;
+      
+      // Poll for balance updates every 5 seconds
+      setInterval(() => {
+        fetch(`http://localhost:3000/api/users/${email}`)
+          .then(response => {
+            if (response.ok) {
+              return response.json();
+            } else {
+              throw new Error('Failed to fetch user data');
+            }
+          })
+          .then(data => {
+            const newBalance = data.currentBalance || data.balance || 0;
+            
+            if (newBalance !== userBalance) {
+              const balanceChange = newBalance - userBalance;
+              userBalance = newBalance;
+              updateBalanceDisplay();
+              updateStats();
+              
+              if (balanceChange !== 0) {
+                showBalanceUpdateNotification(balanceChange, 'Balance Updated');
+              }
+            }
+          })
+          .catch(error => {
+            console.error('Error checking for balance updates:', error);
+          });
+      }, 5000);
+    }
+
+    function showBalanceUpdateNotification(balanceChange, reason) {
+      const changeType = balanceChange > 0 ? 'credited' : 'debited';
+      const changeAmount = Math.abs(balanceChange);
+      const message = `Your balance has been ${changeType} ${changeAmount.toLocaleString()} Frw. Reason: ${reason}`;
+      
+      showMessage(message, balanceChange > 0 ? 'success' : 'warning');
+      
+      // Also show a toast notification
+      showToastNotification(message, balanceChange > 0 ? 'success' : 'warning');
+    }
+
+    function showToastNotification(message, type) {
+      // Create toast notification
+      const toast = document.createElement('div');
+      toast.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: ${type === 'success' ? 'var(--success)' : 'var(--warning)'};
+        color: ${type === 'success' ? 'var(--dark)' : 'var(--dark)'};
+        padding: 15px 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        z-index: 10000;
+        font-weight: 600;
+        max-width: 300px;
+        animation: slideInRight 0.3s ease-out;
+      `;
+      toast.textContent = message;
+      
+      document.body.appendChild(toast);
+      
+      // Remove toast after 5 seconds
+      setTimeout(() => {
+        toast.style.animation = 'slideOutRight 0.3s ease-out';
+        setTimeout(() => {
+          if (toast.parentNode) {
+            toast.parentNode.removeChild(toast);
+          }
+        }, 300);
+      }, 5000);
+    }
+
+    // Add CSS animations for toast notifications
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes slideInRight {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+      }
+      @keyframes slideOutRight {
+        from { transform: translateX(0); opacity: 1; }
+        to { transform: translateX(100%); opacity: 0; }
+      }
+    `;
+    document.head.appendChild(style);
+
+    function updateBalanceDisplay() {
+      document.getElementById('balanceDisplay').innerHTML = `<i class="fas fa-coins"></i> Balance: ${userBalance.toLocaleString()} Frw`;
+      document.getElementById('userBalance').textContent = userBalance.toLocaleString() + ' Frw';
+    }
+
+    function updateStats() {
+      // Mock stats - in real app, these would come from database
+      document.getElementById('totalWins').textContent = Math.floor(Math.random() * 50) + 10;
+      document.getElementById('winRate').textContent = (Math.random() * 30 + 60).toFixed(1) + '%';
+      document.getElementById('activeBets').textContent = Math.floor(Math.random() * 5) + 1;
+    }
+
+    function showTab(tabName) {
+      // Hide all tab contents
+      document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      
+      // Remove active class from all tab buttons
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      
+      // Show selected tab content
+      document.getElementById(tabName).classList.add('active');
+      
+      // Add active class to clicked button
+      event.target.classList.add('active');
+    }
+
+    function playGame(gameType) {
+      if (gameType === 'aviator') {
+        // Redirect to Aviator game page
+        window.location.href = 'aviator.html';
+        return;
+      }
+
+      if (userBalance < 100) {
+        showMessage('Insufficient balance. Please deposit to play games.', 'error');
+        return;
+      }
+
+      const betAmount = prompt(`Enter bet amount for ${gameType} (minimum 100 Frw):`);
+      if (!betAmount || betAmount < 100) {
+        showMessage('Invalid bet amount. Minimum bet is 100 Frw.', 'error');
+        return;
+      }
+
+      if (parseFloat(betAmount) > userBalance) {
+        showMessage('Insufficient balance for this bet.', 'error');
+        return;
+      }
+
+      // Simulate game result
+      const win = Math.random() > 0.6; // 40% win rate
+      const multiplier = win ? (Math.random() * 2 + 1) : 0;
+      const winAmount = win ? parseFloat(betAmount) * multiplier : 0;
+      
+      const newBalance = userBalance - parseFloat(betAmount) + winAmount;
+      
+      // Update balance in database
+      db.collection("users").doc(currentUser.email).update({
+        balance: newBalance,
+        lastGame: gameType,
+        lastBet: parseFloat(betAmount),
+        lastWin: winAmount,
+        lastPlayed: firebase.firestore.FieldValue.serverTimestamp()
+      }).then(() => {
+        userBalance = newBalance;
+        updateBalanceDisplay();
+        
+        if (win) {
+          showMessage(`Congratulations! You won ${winAmount.toFixed(2)} Frw!`, 'success');
+        } else {
+          showMessage(`Game over. You lost ${betAmount} Frw. Try again!`, 'error');
+        }
+      });
+    }
+
+    function addToSlip(team, odds, betType) {
+      const match = event.target.closest('.match-card').querySelector('.match-teams').textContent;
+      
+      bettingSlip.push({
+        match: match,
+        team: team,
+        odds: odds,
+        betType: betType
+      });
+      
+      updateSlip();
+      document.getElementById('bettingSlip').style.display = 'block';
+    }
+
+    function updateSlip() {
+      const slipItems = document.getElementById('slipItems');
+      slipItems.innerHTML = '';
+      
+      totalOdds = 1;
+      bettingSlip.forEach((item, index) => {
+        totalOdds *= item.odds;
+        
+        const slipItem = document.createElement('div');
+        slipItem.className = 'slip-item';
+        slipItem.innerHTML = `
+          <div class="slip-teams">${item.match}</div>
+          <div class="slip-bet">${item.betType}: ${item.team}</div>
+          <div class="slip-odds">Odds: ${item.odds}</div>
+          <button onclick="removeFromSlip(${index})" style="background: var(--danger); color: white; border: none; padding: 5px 10px; border-radius: 5px; margin-top: 5px; cursor: pointer;">Remove</button>
+        `;
+        slipItems.appendChild(slipItem);
+      });
+      
+      document.getElementById('totalOdds').textContent = totalOdds.toFixed(2);
+      updatePotentialWin();
+    }
+
+    function removeFromSlip(index) {
+      bettingSlip.splice(index, 1);
+      updateSlip();
+      
+      if (bettingSlip.length === 0) {
+        document.getElementById('bettingSlip').style.display = 'none';
+      }
+    }
+
+    function clearSlip() {
+      bettingSlip = [];
+      document.getElementById('bettingSlip').style.display = 'none';
+      document.getElementById('betAmount').value = '';
+    }
+
+    function updatePotentialWin() {
+      const betAmount = parseFloat(document.getElementById('betAmount').value) || 0;
+      const potentialWin = betAmount * totalOdds;
+      document.getElementById('potentialWin').textContent = potentialWin.toFixed(2) + ' Frw';
+    }
+
+    function placeBet() {
+      const betAmount = parseFloat(document.getElementById('betAmount').value);
+      
+      if (!betAmount || betAmount < 100) {
+        showMessage('Minimum bet amount is 100 Frw.', 'error');
+        return;
+      }
+      
+      if (betAmount > userBalance) {
+        showMessage('Insufficient balance for this bet.', 'error');
+        return;
+      }
+      
+      if (bettingSlip.length === 0) {
+        showMessage('Please add selections to your betting slip.', 'error');
+        return;
+      }
+
+      // Simulate bet result (in real app, this would be determined by actual match results)
+      const win = Math.random() > 0.7; // 30% win rate for sports betting
+      const winAmount = win ? betAmount * totalOdds : 0;
+      const newBalance = userBalance - betAmount + winAmount;
+      
+      // Update balance and save bet history
+      db.collection("users").doc(currentUser.email).update({
+        balance: newBalance,
+        lastBet: betAmount,
+        lastWin: winAmount,
+        lastBetType: 'Sports',
+        lastBetTime: firebase.firestore.FieldValue.serverTimestamp()
+      }).then(() => {
+        userBalance = newBalance;
+        updateBalanceDisplay();
+        
+        if (win) {
+          showMessage(`Congratulations! Your bet won! You earned ${winAmount.toFixed(2)} Frw!`, 'success');
+        } else {
+          showMessage(`Bet lost. You lost ${betAmount} Frw. Better luck next time!`, 'error');
+        }
+        
+        clearSlip();
+      });
+    }
+
+    function showMessage(message, type) {
+      const container = document.getElementById('messageContainer');
+      container.innerHTML = `<div class="message ${type}">${message}</div>`;
+      
+      setTimeout(() => {
+        container.innerHTML = '';
+      }, 5000);
+    }
+
+    function showDepositModal() {
+      const amount = prompt('Enter deposit amount (Frw):');
+      if (amount && parseFloat(amount) > 0) {
+        const newBalance = userBalance + parseFloat(amount);
+        
+        db.collection("users").doc(currentUser.email).update({
+          balance: newBalance,
+          lastDeposit: parseFloat(amount),
+          lastDepositTime: firebase.firestore.FieldValue.serverTimestamp()
+        }).then(() => {
+          userBalance = newBalance;
+          updateBalanceDisplay();
+          showMessage(`Successfully deposited ${amount} Frw!`, 'success');
+        });
+      }
+    }
+
+    function showWithdrawModal() {
+      const amount = prompt('Enter withdrawal amount (Frw):');
+      if (amount && parseFloat(amount) > 0) {
+        if (parseFloat(amount) > userBalance) {
+          showMessage('Insufficient balance for withdrawal.', 'error');
+          return;
+        }
+        
+        const newBalance = userBalance - parseFloat(amount);
+        
+        db.collection("users").doc(currentUser.email).update({
+          balance: newBalance,
+          lastWithdrawal: parseFloat(amount),
+          lastWithdrawalTime: firebase.firestore.FieldValue.serverTimestamp()
+        }).then(() => {
+          userBalance = newBalance;
+          updateBalanceDisplay();
+          showMessage(`Withdrawal request submitted for ${amount} Frw!`, 'success');
+        });
+      }
+    }
+
+    function logout() {
+      auth.signOut().then(() => {
+        window.location.href = 'index.html';
+      });
+    }
+
+    // Add event listener for bet amount input
+    document.getElementById('betAmount').addEventListener('input', updatePotentialWin);
+
+    // Game data arrays
+    let allGames = [];
+    let allSlots = [];
+    let allLiveGames = [];
+    let allTableGames = [];
+    let allSports = [];
+    let allLiveEvents = [];
+
+    // Initialize games
+    function initializeGames() {
+      loadCasinoGames();
+      loadSlotGames();
+      loadLiveCasinoGames();
+      loadTableGames();
+      loadSportsGames();
+      loadLiveEvents();
+    }
+
+    // Load casino games (500+ games)
+    function loadCasinoGames() {
+      const popularGames = [
+        { id: 'aviator', name: 'Aviatrix', provider: 'Spribe', category: 'crash', rating: 4.8, players: 1250, image: 'https://casinosblockchain.io/wp-content/uploads/2024/08/highest_multipliers_crash_games.webp', description: 'The most popular crash game. Watch the plane fly and cash out before it crashes!' },
+        { id: 'sweet-bonanza', name: 'crash out', provider: 'Pragmatic Play', category: 'slot', rating: 4.7, players: 890, image: 'https://assets.vegasslotsonline.com/vegasslotsonline.com/assets/uploads/games/mascot-gaming-kite-festival-crash-game.jpg' },
+        { id: 'gates-of-olympus', name: 'anywhere crash', provider: 'Pragmatic Play', category: 'slot', rating: 4.9, players: 1100, image: 'https://olbgimages.co.uk/image-cache?src=https://olbgimages.co.uk/storage/gallery/casino-guides-featured-images/high-flyer-crash-game-banner.png' },
+        { id: 'book-of-dead', name: 'Book of Dead crash', provider: 'Play\'n GO', category: 'slot', rating: 4.6, players: 750, image: 'https://crashgambler.io/wp-content/uploads/2024/10/best_original_crash_games_cover.webp', description: 'Egyptian adventure with free spins and expanding symbols' },
+        { id: 'wolf-gold', name: 'Wolf crash', provider: 'Pragmatic Play', category: 'slot', rating: 4.5, players: 680, image: 'https://slotsjudge.com/image/cache/data/categories/crash-games/what-is-crash-games-970x250s.jpg', description: 'Wild West themed slot with money respin feature' },
+        { id: 'starburst', name: 'Starburst', provider: 'NetEnt', category: 'slot', rating: 4.4, players: 920, image: 'https://coinpoker.com/wp-content/uploads/2024/10/cash-or-crash-e1742541711173-1024x574.jpg', description: 'Classic space-themed slot with expanding wilds' }
+      ];
+
+      const newGames = [
+        { id: 'big-bass-bonanza', name: 'Big Bass Bonanza', provider: 'Pragmatic Play', category: 'slot', rating: 4.8, players: 450, image: 'https://images.unsplash.com/photo-1591637333184-19aa84b3e01f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80', description: 'Fishing themed slot with free spins and multipliers' },
+        { id: 'madame-destiny', name: 'Madame Destiny', provider: 'Pragmatic Play', category: 'slot', rating: 4.6, players: 320, image: 'https://images.unsplash.com/photo-1591637333184-19aa84b3e01f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80', description: 'Fortune teller themed slot with mystical symbols' },
+        { id: 'fruit-party', name: 'Fruit Party', provider: 'Pragmatic Play', category: 'slot', rating: 4.7, players: 380, image: 'https://images.unsplash.com/photo-1591637333184-19aa84b3e01f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80', description: 'Colorful fruit slot with cluster pays and multipliers' }
+      ];
+
+      const jackpotGames = [
+        { id: 'mega-fortune', name: 'Mega Fortune', provider: 'NetEnt', category: 'jackpot', rating: 4.9, players: 650, image: 'https://images.unsplash.com/photo-1591637333184-19aa84b3e01f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80', description: 'Luxury themed progressive jackpot slot' },
+        { id: 'hall-of-gods', name: 'Hall of Gods', provider: 'NetEnt', category: 'jackpot', rating: 4.8, players: 580, image: 'https://images.unsplash.com/photo-1591637333184-19aa84b3e01f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80', description: 'Norse mythology progressive jackpot slot' },
+        { id: 'imperial-treasures', name: 'Imperial Treasures', provider: 'Microgaming', category: 'jackpot', rating: 4.7, players: 420, image: 'https://images.unsplash.com/photo-1591637333184-19aa84b3e01f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80', description: 'Asian themed progressive jackpot slot' }
+      ];
+
+      const megawaysGames = [
+        { id: 'bonanza', name: 'Bonanza', provider: 'Big Time Gaming', category: 'megaways', rating: 4.8, players: 890, image: 'https://images.unsplash.com/photo-1591637333184-19aa84b3e01f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80', description: 'Original Megaways slot with mining theme' },
+        { id: 'dragon-born', name: 'Dragon Born', provider: 'Big Time Gaming', category: 'megaways', rating: 4.6, players: 520, image: 'https://images.unsplash.com/photo-1591637333184-19aa84b3e01f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80', description: 'Fantasy themed Megaways slot' },
+        { id: 'genie-jackpots', name: 'Genie Jackpots', provider: 'Big Time Gaming', category: 'megaways', rating: 4.7, players: 680, image: 'https://images.unsplash.com/photo-1591637333184-19aa84b3e01f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80', description: 'Arabian nights themed Megaways slot' }
+      ];
+
+      const bonusBuyGames = [
+        { id: 'razor-shark', name: 'Razor Shark', provider: 'Push Gaming', category: 'bonus-buy', rating: 4.8, players: 450, image: 'https://images.unsplash.com/photo-1591637333184-19aa84b3e01f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80', description: 'Underwater themed slot with bonus buy feature' },
+        { id: 'wild-west-gold', name: 'Wild West Gold', provider: 'Pragmatic Play', category: 'bonus-buy', rating: 4.6, players: 380, image: 'https://images.unsplash.com/photo-1591637333184-19aa84b3e01f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80', description: 'Western themed slot with bonus buy option' },
+        { id: 'joker-supreme', name: 'Joker Supreme', provider: 'Pragmatic Play', category: 'bonus-buy', rating: 4.7, players: 420, image: 'https://images.unsplash.com/photo-1591637333184-19aa84b3e01f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80', description: 'Joker themed slot with bonus buy feature' }
+      ];
+
+      allGames = [...popularGames, ...newGames, ...jackpotGames, ...megawaysGames, ...bonusBuyGames];
+
+      // Generate additional games to reach 500+
+      for (let i = 1; i <= 500; i++) {
+        const gameTypes = ['slot', 'jackpot', 'megaways', 'bonus-buy', 'crash'];
+        const providers = ['Pragmatic Play', 'NetEnt', 'Microgaming', 'Play\'n GO', 'Big Time Gaming', 'Push Gaming', 'Yggdrasil', 'Quickspin', 'Red Tiger', 'Playtech'];
+        const themes = ['Adventure', 'Fantasy', 'Egyptian', 'Greek', 'Asian', 'Western', 'Space', 'Ocean', 'Jungle', 'Medieval'];
+        
+        const randomType = gameTypes[Math.floor(Math.random() * gameTypes.length)];
+        const randomProvider = providers[Math.floor(Math.random() * providers.length)];
+        const randomTheme = themes[Math.floor(Math.random() * themes.length)];
+        
+        allGames.push({
+          id: `game-${i}`,
+          name: `${randomTheme} ${randomType.charAt(0).toUpperCase() + randomType.slice(1)} ${i}`,
+          provider: randomProvider,
+          category: randomType,
+          rating: (4 + Math.random() * 0.9).toFixed(1),
+          players: Math.floor(Math.random() * 1000) + 50,
+          image: `https://picsum.photos/300/200?random=${i}`,
+          description: `${randomTheme} themed ${randomType} game with exciting features and big wins!`
+        });
+      }
+
+      renderCasinoGames();
+    }
+
+    // Load slot games (200+ games)
+    function loadSlotGames() {
+      const slotThemes = ['Fruit', 'Adventure', 'Fantasy', 'Egyptian', 'Greek', 'Asian', 'Western', 'Space', 'Ocean', 'Jungle', 'Medieval', 'Viking', 'Dragon', 'Treasure', 'Magic', 'Royal', 'Nature', 'Sports', 'Music', 'Food'];
+      const slotTypes = ['classic', 'video', '3d', 'fruit', 'adventure'];
+      
+      for (let i = 1; i <= 200; i++) {
+        const randomTheme = slotThemes[Math.floor(Math.random() * slotThemes.length)];
+        const randomType = slotTypes[Math.floor(Math.random() * slotTypes.length)];
+        const randomProvider = ['Pragmatic Play', 'NetEnt', 'Microgaming', 'Play\'n GO', 'Big Time Gaming', 'Push Gaming', 'Yggdrasil', 'Quickspin', 'Red Tiger', 'Playtech'][Math.floor(Math.random() * 10)];
+        
+        allSlots.push({
+          id: `slot-${i}`,
+          name: `${randomTheme} Slots ${i}`,
+          provider: randomProvider,
+          type: randomType,
+          rating: (4 + Math.random() * 0.9).toFixed(1),
+          players: Math.floor(Math.random() * 800) + 30,
+          image: `https://picsum.photos/300/200?random=${i + 1000}`,
+          description: `${randomTheme} themed slot game with exciting bonus features!`
+        });
+      }
+
+      renderSlotGames();
+    }
+
+    // Load live casino games (50+ games)
+    function loadLiveCasinoGames() {
+      const liveGameTypes = ['blackjack', 'roulette', 'baccarat', 'poker', 'game-shows'];
+      const liveProviders = ['Evolution Gaming', 'Pragmatic Play Live', 'Ezugi', 'Vivo Gaming', 'XPG'];
+      
+      for (let i = 1; i <= 50; i++) {
+        const randomType = liveGameTypes[Math.floor(Math.random() * liveGameTypes.length)];
+        const randomProvider = liveProviders[Math.floor(Math.random() * liveProviders.length)];
+        
+        allLiveGames.push({
+          id: `live-${i}`,
+          name: `Live ${randomType.charAt(0).toUpperCase() + randomType.slice(1)} ${i}`,
+          provider: randomProvider,
+          type: randomType,
+          rating: (4 + Math.random() * 0.9).toFixed(1),
+          players: Math.floor(Math.random() * 200) + 10,
+          image: `https://picsum.photos/300/200?random=${i + 2000}`,
+          description: `Live ${randomType} game with real dealers and players!`
+        });
+      }
+
+      renderLiveCasinoGames();
+    }
+
+    // Load table games (100+ games)
+    function loadTableGames() {
+      const tableGameTypes = ['blackjack', 'roulette', 'baccarat', 'poker', 'craps', 'sic-bo'];
+      const tableProviders = ['Pragmatic Play', 'NetEnt', 'Microgaming', 'Play\'n GO', 'Evolution Gaming', 'Playtech'];
+      
+      for (let i = 1; i <= 100; i++) {
+        const randomType = tableGameTypes[Math.floor(Math.random() * tableGameTypes.length)];
+        const randomProvider = tableProviders[Math.floor(Math.random() * tableProviders.length)];
+        
+        allTableGames.push({
+          id: `table-${i}`,
+          name: `${randomType.charAt(0).toUpperCase() + randomType.slice(1)} ${i}`,
+          provider: randomProvider,
+          type: randomType,
+          rating: (4 + Math.random() * 0.9).toFixed(1),
+          players: Math.floor(Math.random() * 300) + 20,
+          image: `https://picsum.photos/300/200?random=${i + 3000}`,
+          description: `Classic ${randomType} game with multiple betting options!`
+        });
+      }
+
+      renderTableGames();
+    }
+
+    // Render casino games
+    function renderCasinoGames() {
+      const popularContainer = document.getElementById('popularGames');
+      const newContainer = document.getElementById('newGames');
+      const jackpotContainer = document.getElementById('jackpotGames');
+      const megawaysContainer = document.getElementById('megawaysGames');
+      const bonusBuyContainer = document.getElementById('bonusBuyGames');
+
+      // Render popular games (first 6)
+      popularContainer.innerHTML = allGames.slice(0, 6).map(game => createGameCard(game)).join('');
+      
+      // Render new games (next 6)
+      newContainer.innerHTML = allGames.slice(6, 12).map(game => createGameCard(game)).join('');
+      
+      // Render jackpot games
+      const jackpotGames = allGames.filter(game => game.category === 'jackpot').slice(0, 6);
+      jackpotContainer.innerHTML = jackpotGames.map(game => createGameCard(game)).join('');
+      
+      // Render megaways games
+      const megawaysGames = allGames.filter(game => game.category === 'megaways').slice(0, 6);
+      megawaysContainer.innerHTML = megawaysGames.map(game => createGameCard(game)).join('');
+      
+      // Render bonus buy games
+      const bonusBuyGames = allGames.filter(game => game.category === 'bonus-buy').slice(0, 6);
+      bonusBuyContainer.innerHTML = bonusBuyGames.map(game => createGameCard(game)).join('');
+    }
+
+    // Render slot games
+    function renderSlotGames() {
+      const slotsGrid = document.getElementById('slotsGrid');
+      slotsGrid.innerHTML = allSlots.map(game => createGameCard(game)).join('');
+    }
+
+    // Render live casino games
+    function renderLiveCasinoGames() {
+      const liveGrid = document.getElementById('liveCasinoGrid');
+      liveGrid.innerHTML = allLiveGames.map(game => createGameCard(game)).join('');
+    }
+
+    // Render table games
+    function renderTableGames() {
+      const tableGrid = document.getElementById('tableGamesGrid');
+      tableGrid.innerHTML = allTableGames.map(game => createGameCard(game)).join('');
+    }
+
+    // Create game card HTML
+    function createGameCard(game) {
+      return `
+        <div class="game-card" onclick="playGame('${game.id}')">
+          <div class="game-image" style="background-image: url('${game.image}');">
+            <div class="provider-badge">${game.provider}</div>
+            <div class="game-overlay">
+              <button class="play-btn">Play Now</button>
+            </div>
+          </div>
+          <div class="game-info">
+            <div class="game-title">${game.name}</div>
+            <div class="game-description">${game.description}</div>
+            <div class="game-stats">
+              <span class="game-rating">⭐ ${game.rating}</span>
+              <span class="game-players">👥 ${game.players}</span>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // Filter functions
+    function filterGames() {
+      const searchTerm = document.getElementById('gameSearch').value.toLowerCase();
+      const filteredGames = allGames.filter(game => 
+        game.name.toLowerCase().includes(searchTerm) || 
+        game.description.toLowerCase().includes(searchTerm) ||
+        game.provider.toLowerCase().includes(searchTerm)
+      );
+      
+      // Update all game containers with filtered results
+      updateGameContainers(filteredGames);
+    }
+
+    function filterByCategory(category) {
+      // Update active filter button
+      document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+      
+      let filteredGames = allGames;
+      if (category !== 'all') {
+        filteredGames = allGames.filter(game => game.category === category);
+      }
+      
+      updateGameContainers(filteredGames);
+    }
+
+    function updateGameContainers(games) {
+      const containers = ['popularGames', 'newGames', 'jackpotGames', 'megawaysGames', 'bonusBuyGames'];
+      containers.forEach(containerId => {
+        const container = document.getElementById(containerId);
+        if (container) {
+          container.innerHTML = games.slice(0, 6).map(game => createGameCard(game)).join('');
+        }
+      });
+    }
+
+    function filterSlots() {
+      const searchTerm = document.getElementById('slotSearch').value.toLowerCase();
+      const filteredSlots = allSlots.filter(game => 
+        game.name.toLowerCase().includes(searchTerm) || 
+        game.description.toLowerCase().includes(searchTerm)
+      );
+      
+      const slotsGrid = document.getElementById('slotsGrid');
+      slotsGrid.innerHTML = filteredSlots.map(game => createGameCard(game)).join('');
+    }
+
+    function filterBySlotType(type) {
+      document.querySelectorAll('#slots .filter-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+      
+      let filteredSlots = allSlots;
+      if (type !== 'all') {
+        filteredSlots = allSlots.filter(game => game.type === type);
+      }
+      
+      const slotsGrid = document.getElementById('slotsGrid');
+      slotsGrid.innerHTML = filteredSlots.map(game => createGameCard(game)).join('');
+    }
+
+    function filterLiveGames() {
+      const searchTerm = document.getElementById('liveSearch').value.toLowerCase();
+      const filteredGames = allLiveGames.filter(game => 
+        game.name.toLowerCase().includes(searchTerm) || 
+        game.description.toLowerCase().includes(searchTerm)
+      );
+      
+      const liveGrid = document.getElementById('liveCasinoGrid');
+      liveGrid.innerHTML = filteredGames.map(game => createGameCard(game)).join('');
+    }
+
+    function filterByLiveType(type) {
+      document.querySelectorAll('#live-casino .filter-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+      
+      let filteredGames = allLiveGames;
+      if (type !== 'all') {
+        filteredGames = allLiveGames.filter(game => game.type === type);
+      }
+      
+      const liveGrid = document.getElementById('liveCasinoGrid');
+      liveGrid.innerHTML = filteredGames.map(game => createGameCard(game)).join('');
+    }
+
+    function filterTableGames() {
+      const searchTerm = document.getElementById('tableSearch').value.toLowerCase();
+      const filteredGames = allTableGames.filter(game => 
+        game.name.toLowerCase().includes(searchTerm) || 
+        game.description.toLowerCase().includes(searchTerm)
+      );
+      
+      const tableGrid = document.getElementById('tableGamesGrid');
+      tableGrid.innerHTML = filteredGames.map(game => createGameCard(game)).join('');
+    }
+
+    function filterByTableType(type) {
+      document.querySelectorAll('#table-games .filter-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+      
+      let filteredGames = allTableGames;
+      if (type !== 'all') {
+        filteredGames = allTableGames.filter(game => game.type === type);
+      }
+      
+      const tableGrid = document.getElementById('tableGamesGrid');
+      tableGrid.innerHTML = filteredGames.map(game => createGameCard(game)).join('');
+    }
+
+    // Load sports games (500+ events)
+    function loadSportsGames() {
+      const footballTeams = [
+        'Manchester United', 'Liverpool', 'Arsenal', 'Chelsea', 'Manchester City', 'Tottenham', 'Barcelona', 'Real Madrid', 'Bayern Munich', 'PSG',
+        'Juventus', 'AC Milan', 'Inter Milan', 'Ajax', 'Porto', 'Benfica', 'Celtic', 'Rangers', 'Galatasaray', 'Fenerbahce'
+      ];
+
+      const basketballTeams = [
+        'Lakers', 'Warriors', 'Celtics', 'Heat', 'Bulls', 'Knicks', 'Nets', 'Clippers', 'Suns', 'Bucks',
+        'Nuggets', '76ers', 'Raptors', 'Mavericks', 'Rockets', 'Thunder', 'Jazz', 'Trail Blazers', 'Grizzlies', 'Pelicans'
+      ];
+
+      const tennisPlayers = [
+        'Novak Djokovic', 'Rafael Nadal', 'Roger Federer', 'Daniil Medvedev', 'Stefanos Tsitsipas', 'Alexander Zverev',
+        'Ashleigh Barty', 'Naomi Osaka', 'Simona Halep', 'Serena Williams', 'Iga Swiatek', 'Aryna Sabalenka'
+      ];
+
+      const cricketTeams = [
+        'India', 'Australia', 'England', 'Pakistan', 'South Africa', 'New Zealand', 'West Indies', 'Sri Lanka', 'Bangladesh', 'Afghanistan'
+      ];
+
+      const baseballTeams = [
+        'Yankees', 'Red Sox', 'Dodgers', 'Giants', 'Cubs', 'Cardinals', 'Astros', 'Braves', 'Mets', 'Phillies'
+      ];
+
+      const hockeyTeams = [
+        'Maple Leafs', 'Canadiens', 'Bruins', 'Rangers', 'Penguins', 'Capitals', 'Lightning', 'Panthers', 'Oilers', 'Flames'
+      ];
+
+      const rugbyTeams = [
+        'All Blacks', 'Springboks', 'Wallabies', 'England', 'Wales', 'Ireland', 'Scotland', 'France', 'Argentina', 'Fiji'
+      ];
+
+      const volleyballTeams = [
+        'Brazil', 'USA', 'Russia', 'Poland', 'Italy', 'France', 'Serbia', 'Argentina', 'Iran', 'Japan'
+      ];
+
+      const esportsTeams = [
+        'Fnatic', 'G2 Esports', 'Team Liquid', 'Cloud9', 'T1', 'DWG KIA', 'EDward Gaming', 'RNG', 'PSG.LGD', 'OG'
+      ];
+
+      // Generate Football matches (150+)
+      for (let i = 1; i <= 150; i++) {
+        const team1 = footballTeams[Math.floor(Math.random() * footballTeams.length)];
+        const team2 = footballTeams[Math.floor(Math.random() * footballTeams.length)];
+        if (team1 !== team2) {
+          allSports.push({
+            id: `football-${i}`,
+            sport: 'football',
+            teams: `${team1} vs ${team2}`,
+            time: generateRandomTime(),
+            odds: {
+              home: (1.5 + Math.random() * 2).toFixed(2),
+              draw: (2.5 + Math.random() * 2).toFixed(2),
+              away: (1.5 + Math.random() * 2).toFixed(2)
+            },
+            league: getRandomLeague('football'),
+            status: 'upcoming'
+          });
+        }
+      }
+
+      // Generate Basketball matches (80+)
+      for (let i = 1; i <= 80; i++) {
+        const team1 = basketballTeams[Math.floor(Math.random() * basketballTeams.length)];
+        const team2 = basketballTeams[Math.floor(Math.random() * basketballTeams.length)];
+        if (team1 !== team2) {
+          allSports.push({
+            id: `basketball-${i}`,
+            sport: 'basketball',
+            teams: `${team1} vs ${team2}`,
+            time: generateRandomTime(),
+            odds: {
+              home: (1.3 + Math.random() * 1.5).toFixed(2),
+              away: (1.3 + Math.random() * 1.5).toFixed(2)
+            },
+            league: getRandomLeague('basketball'),
+            status: 'upcoming'
+          });
+        }
+      }
+
+      // Generate Tennis matches (60+)
+      for (let i = 1; i <= 60; i++) {
+        const player1 = tennisPlayers[Math.floor(Math.random() * tennisPlayers.length)];
+        const player2 = tennisPlayers[Math.floor(Math.random() * tennisPlayers.length)];
+        if (player1 !== player2) {
+          allSports.push({
+            id: `tennis-${i}`,
+            sport: 'tennis',
+            teams: `${player1} vs ${player2}`,
+            time: generateRandomTime(),
+            odds: {
+              player1: (1.2 + Math.random() * 2).toFixed(2),
+              player2: (1.2 + Math.random() * 2).toFixed(2)
+            },
+            league: getRandomLeague('tennis'),
+            status: 'upcoming'
+          });
+        }
+      }
+
+      // Generate Cricket matches (40+)
+      for (let i = 1; i <= 40; i++) {
+        const team1 = cricketTeams[Math.floor(Math.random() * cricketTeams.length)];
+        const team2 = cricketTeams[Math.floor(Math.random() * cricketTeams.length)];
+        if (team1 !== team2) {
+          allSports.push({
+            id: `cricket-${i}`,
+            sport: 'cricket',
+            teams: `${team1} vs ${team2}`,
+            time: generateRandomTime(),
+            odds: {
+              team1: (1.5 + Math.random() * 2).toFixed(2),
+              draw: (3.0 + Math.random() * 2).toFixed(2),
+              team2: (1.5 + Math.random() * 2).toFixed(2)
+            },
+            league: getRandomLeague('cricket'),
+            status: 'upcoming'
+          });
+        }
+      }
+
+      // Generate Baseball matches (50+)
+      for (let i = 1; i <= 50; i++) {
+        const team1 = baseballTeams[Math.floor(Math.random() * baseballTeams.length)];
+        const team2 = baseballTeams[Math.floor(Math.random() * baseballTeams.length)];
+        if (team1 !== team2) {
+          allSports.push({
+            id: `baseball-${i}`,
+            sport: 'baseball',
+            teams: `${team1} vs ${team2}`,
+            time: generateRandomTime(),
+            odds: {
+              home: (1.4 + Math.random() * 1.8).toFixed(2),
+              away: (1.4 + Math.random() * 1.8).toFixed(2)
+            },
+            league: getRandomLeague('baseball'),
+            status: 'upcoming'
+          });
+        }
+      }
+
+      // Generate Hockey matches (30+)
+      for (let i = 1; i <= 30; i++) {
+        const team1 = hockeyTeams[Math.floor(Math.random() * hockeyTeams.length)];
+        const team2 = hockeyTeams[Math.floor(Math.random() * hockeyTeams.length)];
+        if (team1 !== team2) {
+          allSports.push({
+            id: `hockey-${i}`,
+            sport: 'hockey',
+            teams: `${team1} vs ${team2}`,
+            time: generateRandomTime(),
+            odds: {
+              home: (1.3 + Math.random() * 1.7).toFixed(2),
+              away: (1.3 + Math.random() * 1.7).toFixed(2)
+            },
+            league: getRandomLeague('hockey'),
+            status: 'upcoming'
+          });
+        }
+      }
+
+      // Generate Rugby matches (25+)
+      for (let i = 1; i <= 25; i++) {
+        const team1 = rugbyTeams[Math.floor(Math.random() * rugbyTeams.length)];
+        const team2 = rugbyTeams[Math.floor(Math.random() * rugbyTeams.length)];
+        if (team1 !== team2) {
+          allSports.push({
+            id: `rugby-${i}`,
+            sport: 'rugby',
+            teams: `${team1} vs ${team2}`,
+            time: generateRandomTime(),
+            odds: {
+              home: (1.4 + Math.random() * 1.8).toFixed(2),
+              draw: (3.5 + Math.random() * 2).toFixed(2),
+              away: (1.4 + Math.random() * 1.8).toFixed(2)
+            },
+            league: getRandomLeague('rugby'),
+            status: 'upcoming'
+          });
+        }
+      }
+
+      // Generate Volleyball matches (20+)
+      for (let i = 1; i <= 20; i++) {
+        const team1 = volleyballTeams[Math.floor(Math.random() * volleyballTeams.length)];
+        const team2 = volleyballTeams[Math.floor(Math.random() * volleyballTeams.length)];
+        if (team1 !== team2) {
+          allSports.push({
+            id: `volleyball-${i}`,
+            sport: 'volleyball',
+            teams: `${team1} vs ${team2}`,
+            time: generateRandomTime(),
+            odds: {
+              home: (1.3 + Math.random() * 1.7).toFixed(2),
+              away: (1.3 + Math.random() * 1.7).toFixed(2)
+            },
+            league: getRandomLeague('volleyball'),
+            status: 'upcoming'
+          });
+        }
+      }
+
+      // Generate Esports matches (35+)
+      for (let i = 1; i <= 35; i++) {
+        const team1 = esportsTeams[Math.floor(Math.random() * esportsTeams.length)];
+        const team2 = esportsTeams[Math.floor(Math.random() * esportsTeams.length)];
+        if (team1 !== team2) {
+          allSports.push({
+            id: `esports-${i}`,
+            sport: 'esports',
+            teams: `${team1} vs ${team2}`,
+            time: generateRandomTime(),
+            odds: {
+              team1: (1.2 + Math.random() * 2).toFixed(2),
+              team2: (1.2 + Math.random() * 2).toFixed(2)
+            },
+            league: getRandomLeague('esports'),
+            status: 'upcoming'
+          });
+        }
+      }
+
+      renderSportsGames();
+    }
+
+    // Load live events (200+ events)
+    function loadLiveEvents() {
+      // Generate live football matches (60+)
+      for (let i = 1; i <= 60; i++) {
+        const teams = ['Real Madrid', 'Barcelona', 'Manchester United', 'Liverpool', 'Bayern Munich', 'PSG', 'Juventus', 'AC Milan', 'Ajax', 'Porto'];
+        const team1 = teams[Math.floor(Math.random() * teams.length)];
+        const team2 = teams[Math.floor(Math.random() * teams.length)];
+        if (team1 !== team2) {
+          allLiveEvents.push({
+            id: `live-football-${i}`,
+            sport: 'football',
+            teams: `${team1} vs ${team2}`,
+            time: `LIVE - ${Math.floor(Math.random() * 90)}'`,
+            score: `${Math.floor(Math.random() * 5)}-${Math.floor(Math.random() * 5)}`,
+            odds: {
+              home: (1.2 + Math.random() * 2).toFixed(2),
+              draw: (2.5 + Math.random() * 2).toFixed(2),
+              away: (1.2 + Math.random() * 2).toFixed(2)
+            },
+            league: getRandomLeague('football'),
+            status: 'live'
+          });
+        }
+      }
+
+      // Generate live basketball matches (40+)
+      for (let i = 1; i <= 40; i++) {
+        const teams = ['Lakers', 'Warriors', 'Celtics', 'Heat', 'Bulls', 'Knicks', 'Nets', 'Clippers', 'Suns', 'Bucks'];
+        const team1 = teams[Math.floor(Math.random() * teams.length)];
+        const team2 = teams[Math.floor(Math.random() * teams.length)];
+        if (team1 !== team2) {
+          allLiveEvents.push({
+            id: `live-basketball-${i}`,
+            sport: 'basketball',
+            teams: `${team1} vs ${team2}`,
+            time: `LIVE - Q${Math.floor(Math.random() * 4) + 1}`,
+            score: `${Math.floor(Math.random() * 150)}-${Math.floor(Math.random() * 150)}`,
+            odds: {
+              home: (1.1 + Math.random() * 1.5).toFixed(2),
+              away: (1.1 + Math.random() * 1.5).toFixed(2)
+            },
+            league: getRandomLeague('basketball'),
+            status: 'live'
+          });
+        }
+      }
+
+      // Generate live tennis matches (30+)
+      for (let i = 1; i <= 30; i++) {
+        const players = ['Novak Djokovic', 'Rafael Nadal', 'Roger Federer', 'Daniil Medvedev', 'Stefanos Tsitsipas', 'Alexander Zverev'];
+        const player1 = players[Math.floor(Math.random() * players.length)];
+        const player2 = players[Math.floor(Math.random() * players.length)];
+        if (player1 !== player2) {
+          allLiveEvents.push({
+            id: `live-tennis-${i}`,
+            sport: 'tennis',
+            teams: `${player1} vs ${player2}`,
+            time: `LIVE - Set ${Math.floor(Math.random() * 3) + 1}`,
+            score: `${Math.floor(Math.random() * 7)}-${Math.floor(Math.random() * 7)}`,
+            odds: {
+              player1: (1.1 + Math.random() * 2).toFixed(2),
+              player2: (1.1 + Math.random() * 2).toFixed(2)
+            },
+            league: getRandomLeague('tennis'),
+            status: 'live'
+          });
+        }
+      }
+
+      // Generate live cricket matches (25+)
+      for (let i = 1; i <= 25; i++) {
+        const teams = ['India', 'Australia', 'England', 'Pakistan', 'South Africa', 'New Zealand'];
+        const team1 = teams[Math.floor(Math.random() * teams.length)];
+        const team2 = teams[Math.floor(Math.random() * teams.length)];
+        if (team1 !== team2) {
+          allLiveEvents.push({
+            id: `live-cricket-${i}`,
+            sport: 'cricket',
+            teams: `${team1} vs ${team2}`,
+            time: `LIVE - ${Math.floor(Math.random() * 50)}th over`,
+            score: `${Math.floor(Math.random() * 300)}/${Math.floor(Math.random() * 10)}`,
+            odds: {
+              team1: (1.3 + Math.random() * 2).toFixed(2),
+              draw: (3.0 + Math.random() * 2).toFixed(2),
+              team2: (1.3 + Math.random() * 2).toFixed(2)
+            },
+            league: getRandomLeague('cricket'),
+            status: 'live'
+          });
+        }
+      }
+
+      // Generate live baseball matches (20+)
+      for (let i = 1; i <= 20; i++) {
+        const teams = ['Yankees', 'Red Sox', 'Dodgers', 'Giants', 'Cubs', 'Cardinals'];
+        const team1 = teams[Math.floor(Math.random() * teams.length)];
+        const team2 = teams[Math.floor(Math.random() * teams.length)];
+        if (team1 !== team2) {
+          allLiveEvents.push({
+            id: `live-baseball-${i}`,
+            sport: 'baseball',
+            teams: `${team1} vs ${team2}`,
+            time: `LIVE - ${Math.floor(Math.random() * 9) + 1}th inning`,
+            score: `${Math.floor(Math.random() * 10)}-${Math.floor(Math.random() * 10)}`,
+            odds: {
+              home: (1.2 + Math.random() * 1.8).toFixed(2),
+              away: (1.2 + Math.random() * 1.8).toFixed(2)
+            },
+            league: getRandomLeague('baseball'),
+            status: 'live'
+          });
+        }
+      }
+
+      // Generate live hockey matches (15+)
+      for (let i = 1; i <= 15; i++) {
+        const teams = ['Maple Leafs', 'Canadiens', 'Bruins', 'Rangers', 'Penguins', 'Capitals'];
+        const team1 = teams[Math.floor(Math.random() * teams.length)];
+        const team2 = teams[Math.floor(Math.random() * teams.length)];
+        if (team1 !== team2) {
+          allLiveEvents.push({
+            id: `live-hockey-${i}`,
+            sport: 'hockey',
+            teams: `${team1} vs ${team2}`,
+            time: `LIVE - ${Math.floor(Math.random() * 3) + 1}rd period`,
+            score: `${Math.floor(Math.random() * 6)}-${Math.floor(Math.random() * 6)}`,
+            odds: {
+              home: (1.2 + Math.random() * 1.6).toFixed(2),
+              away: (1.2 + Math.random() * 1.6).toFixed(2)
+            },
+            league: getRandomLeague('hockey'),
+            status: 'live'
+          });
+        }
+      }
+
+      // Generate live rugby matches (10+)
+      for (let i = 1; i <= 10; i++) {
+        const teams = ['All Blacks', 'Springboks', 'Wallabies', 'England', 'Wales', 'Ireland'];
+        const team1 = teams[Math.floor(Math.random() * teams.length)];
+        const team2 = teams[Math.floor(Math.random() * teams.length)];
+        if (team1 !== team2) {
+          allLiveEvents.push({
+            id: `live-rugby-${i}`,
+            sport: 'rugby',
+            teams: `${team1} vs ${team2}`,
+            time: `LIVE - ${Math.floor(Math.random() * 80)}th minute`,
+            score: `${Math.floor(Math.random() * 40)}-${Math.floor(Math.random() * 40)}`,
+            odds: {
+              home: (1.3 + Math.random() * 1.7).toFixed(2),
+              draw: (3.5 + Math.random() * 2).toFixed(2),
+              away: (1.3 + Math.random() * 1.7).toFixed(2)
+            },
+            league: getRandomLeague('rugby'),
+            status: 'live'
+          });
+        }
+      }
+
+      // Generate live volleyball matches (8+)
+      for (let i = 1; i <= 8; i++) {
+        const teams = ['Brazil', 'USA', 'Russia', 'Poland', 'Italy', 'France'];
+        const team1 = teams[Math.floor(Math.random() * teams.length)];
+        const team2 = teams[Math.floor(Math.random() * teams.length)];
+        if (team1 !== team2) {
+          allLiveEvents.push({
+            id: `live-volleyball-${i}`,
+            sport: 'volleyball',
+            teams: `${team1} vs ${team2}`,
+            time: `LIVE - Set ${Math.floor(Math.random() * 5) + 1}`,
+            score: `${Math.floor(Math.random() * 25)}-${Math.floor(Math.random() * 25)}`,
+            odds: {
+              home: (1.2 + Math.random() * 1.6).toFixed(2),
+              away: (1.2 + Math.random() * 1.6).toFixed(2)
+            },
+            league: getRandomLeague('volleyball'),
+            status: 'live'
+          });
+        }
+      }
+
+      // Generate live esports matches (12+)
+      for (let i = 1; i <= 12; i++) {
+        const teams = ['Fnatic', 'G2 Esports', 'Team Liquid', 'Cloud9', 'T1', 'DWG KIA'];
+        const team1 = teams[Math.floor(Math.random() * teams.length)];
+        const team2 = teams[Math.floor(Math.random() * teams.length)];
+        if (team1 !== team2) {
+          allLiveEvents.push({
+            id: `live-esports-${i}`,
+            sport: 'esports',
+            teams: `${team1} vs ${team2}`,
+            time: `LIVE - Game ${Math.floor(Math.random() * 5) + 1}`,
+            score: `${Math.floor(Math.random() * 3)}-${Math.floor(Math.random() * 3)}`,
+            odds: {
+              team1: (1.1 + Math.random() * 2).toFixed(2),
+              team2: (1.1 + Math.random() * 2).toFixed(2)
+            },
+            league: getRandomLeague('esports'),
+            status: 'live'
+          });
+        }
+      }
+
+      renderLiveEvents();
+    }
+
+    // Helper functions
+    function generateRandomTime() {
+      const hours = Math.floor(Math.random() * 24);
+      const minutes = Math.floor(Math.random() * 60);
+      const days = ['Today', 'Tomorrow', 'In 2 days', 'In 3 days'];
+      const randomDay = days[Math.floor(Math.random() * days.length)];
+      return `${randomDay} ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+    }
+
+    function getRandomLeague(sport) {
+      const leagues = {
+        football: ['Premier League', 'La Liga', 'Bundesliga', 'Serie A', 'Ligue 1', 'Champions League', 'Europa League'],
+        basketball: ['NBA', 'EuroLeague', 'CBA', 'NBL', 'ACB'],
+        tennis: ['Wimbledon', 'US Open', 'French Open', 'Australian Open', 'ATP Finals', 'WTA Finals'],
+        cricket: ['IPL', 'Test Series', 'ODI Series', 'T20 World Cup', 'Ashes'],
+        baseball: ['MLB', 'NPB', 'KBO', 'CPBL'],
+        hockey: ['NHL', 'KHL', 'SHL', 'Liiga'],
+        rugby: ['Six Nations', 'Rugby Championship', 'World Cup', 'Super Rugby'],
+        volleyball: ['FIVB World League', 'CEV Champions League', 'AVP'],
+        esports: ['LCS', 'LEC', 'LCK', 'LPL', 'Dota 2 Pro Circuit', 'CS:GO Major']
+      };
+      return leagues[sport][Math.floor(Math.random() * leagues[sport].length)];
+    }
+
+    // Render sports games
+    function renderSportsGames() {
+      const sports = ['football', 'basketball', 'tennis', 'cricket', 'baseball', 'hockey', 'rugby', 'volleyball', 'esports'];
+      
+      sports.forEach(sport => {
+        const container = document.getElementById(`${sport}-matches`);
+        if (container) {
+          const sportMatches = allSports.filter(match => match.sport === sport);
+          container.innerHTML = sportMatches.slice(0, 12).map(match => createMatchCard(match)).join('');
+        }
+      });
+    }
+
+    // Render live events
+    function renderLiveEvents() {
+      const sports = ['football', 'basketball', 'tennis', 'cricket', 'baseball', 'hockey', 'rugby', 'volleyball', 'esports'];
+      
+      sports.forEach(sport => {
+        const container = document.getElementById(`live-${sport}-matches`);
+        if (container) {
+          const liveMatches = allLiveEvents.filter(match => match.sport === sport);
+          container.innerHTML = liveMatches.slice(0, 8).map(match => createLiveMatchCard(match)).join('');
+        }
+      });
+    }
+
+    // Create match card HTML
+    function createMatchCard(match) {
+      const bettingOptions = match.odds.draw ? 
+        `
+          <div class="bet-option" onclick="addToSlip('${match.teams.split(' vs ')[0]}', ${match.odds.home}, 'Home Win')">
+            <div class="bet-odds">${match.odds.home}</div>
+            <div class="bet-label">Home Win</div>
+          </div>
+          <div class="bet-option" onclick="addToSlip('Draw', ${match.odds.draw}, 'Draw')">
+            <div class="bet-odds">${match.odds.draw}</div>
+            <div class="bet-label">Draw</div>
+          </div>
+          <div class="bet-option" onclick="addToSlip('${match.teams.split(' vs ')[1]}', ${match.odds.away}, 'Away Win')">
+            <div class="bet-odds">${match.odds.away}</div>
+            <div class="bet-label">Away Win</div>
+          </div>
+        ` :
+        `
+          <div class="bet-option" onclick="addToSlip('${match.teams.split(' vs ')[0]}', ${match.odds.home}, 'Home Win')">
+            <div class="bet-odds">${match.odds.home}</div>
+            <div class="bet-label">Home Win</div>
+          </div>
+          <div class="bet-option" onclick="addToSlip('${match.teams.split(' vs ')[1]}', ${match.odds.away}, 'Away Win')">
+            <div class="bet-odds">${match.odds.away}</div>
+            <div class="bet-label">Away Win</div>
+          </div>
+        `;
+
+      return `
+        <div class="match-card">
+          <div class="match-header">
+            <div class="match-teams">${match.teams}</div>
+            <div class="match-time">${match.time}</div>
+          </div>
+          <div class="match-score">League: ${match.league}</div>
+          <div class="betting-options">
+            ${bettingOptions}
+          </div>
+        </div>
+      `;
+    }
+
+    // Create live match card HTML
+    function createLiveMatchCard(match) {
+      const bettingOptions = match.odds.draw ? 
+        `
+          <div class="bet-option" onclick="addToSlip('${match.teams.split(' vs ')[0]}', ${match.odds.home}, 'Home Win')">
+            <div class="bet-odds">${match.odds.home}</div>
+            <div class="bet-label">Home Win</div>
+          </div>
+          <div class="bet-option" onclick="addToSlip('Draw', ${match.odds.draw}, 'Draw')">
+            <div class="bet-odds">${match.odds.draw}</div>
+            <div class="bet-label">Draw</div>
+          </div>
+          <div class="bet-option" onclick="addToSlip('${match.teams.split(' vs ')[1]}', ${match.odds.away}, 'Away Win')">
+            <div class="bet-odds">${match.odds.away}</div>
+            <div class="bet-label">Away Win</div>
+          </div>
+        ` :
+        `
+          <div class="bet-option" onclick="addToSlip('${match.teams.split(' vs ')[0]}', ${match.odds.home}, 'Home Win')">
+            <div class="bet-odds">${match.odds.home}</div>
+            <div class="bet-label">Home Win</div>
+          </div>
+          <div class="bet-option" onclick="addToSlip('${match.teams.split(' vs ')[1]}', ${match.odds.away}, 'Away Win')">
+            <div class="bet-odds">${match.odds.away}</div>
+            <div class="bet-label">Away Win</div>
+          </div>
+        `;
+
+      return `
+        <div class="match-card live">
+          <div class="match-header">
+            <div class="match-teams">${match.teams}</div>
+            <div class="match-time live">${match.time}</div>
+          </div>
+          <div class="match-score">Score: ${match.score} | League: ${match.league}</div>
+          <div class="betting-options">
+            ${bettingOptions}
+          </div>
+        </div>
+      `;
+    }
+
+    // Filter functions for sports
+    function filterSports() {
+      const searchTerm = document.getElementById('sportsSearch').value.toLowerCase();
+      const filteredSports = allSports.filter(match => 
+        match.teams.toLowerCase().includes(searchTerm) || 
+        match.league.toLowerCase().includes(searchTerm)
+      );
+      
+      updateSportsContainers(filteredSports);
+    }
+
+    function filterBySport(sport) {
+      document.querySelectorAll('#sports .filter-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+      
+      let filteredSports = allSports;
+      if (sport !== 'all') {
+        filteredSports = allSports.filter(match => match.sport === sport);
+      }
+      
+      updateSportsContainers(filteredSports);
+    }
+
+    function updateSportsContainers(matches) {
+      const sports = ['football', 'basketball', 'tennis', 'cricket', 'baseball', 'hockey', 'rugby', 'volleyball', 'esports'];
+      
+      sports.forEach(sport => {
+        const container = document.getElementById(`${sport}-matches`);
+        if (container) {
+          const sportMatches = matches.filter(match => match.sport === sport);
+          container.innerHTML = sportMatches.slice(0, 12).map(match => createMatchCard(match)).join('');
+        }
+      });
+    }
+
+    // Filter functions for live events
+    function filterLiveEvents() {
+      const searchTerm = document.getElementById('liveSearch').value.toLowerCase();
+      const filteredEvents = allLiveEvents.filter(match => 
+        match.teams.toLowerCase().includes(searchTerm) || 
+        match.league.toLowerCase().includes(searchTerm)
+      );
+      
+      updateLiveContainers(filteredEvents);
+    }
+
+    function filterByLiveSport(sport) {
+      document.querySelectorAll('#live .filter-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+      
+      let filteredEvents = allLiveEvents;
+      if (sport !== 'all') {
+        filteredEvents = allLiveEvents.filter(match => match.sport === sport);
+      }
+      
+      updateLiveContainers(filteredEvents);
+    }
+
+    function updateLiveContainers(matches) {
+      const sports = ['football', 'basketball', 'tennis', 'cricket', 'baseball', 'hockey', 'rugby', 'volleyball', 'esports'];
+      
+      sports.forEach(sport => {
+        const container = document.getElementById(`live-${sport}-matches`);
+        if (container) {
+          const sportMatches = matches.filter(match => match.sport === sport);
+          container.innerHTML = sportMatches.slice(0, 8).map(match => createLiveMatchCard(match)).join('');
+        }
+      });
+    }
+
+    // Initialize games when page loads
+    window.addEventListener('load', function() {
+      setTimeout(initializeGames, 1000); // Load games after page loads
+    });
+
+    // Auto-refresh user data every 30 seconds
+    // Auto-refresh every 10 seconds for real-time balance updates
+    setInterval(loadUserData, 10000);
+  </script>
+</body>
+</html>

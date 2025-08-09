@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live Chat</title>
+  <style>
+    /* Page background and layout */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    h1 {
+      font-size: 2rem;
+      text-align: center;
+      max-width: 90%;
+    }
+
+    /* Optional: give space for the chat bubble */
+    .content {
+      text-align: center;
+      max-width: 600px;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+  </style>
+</head>
+<body>
+  <div class="content">
+    <h1>Welcome! Our live  payment chat is ready for you.</h1>
+    <p>We’re here to help — click here to deposit</p>
+  </div>
+
+  <!-- Start of Tawk.to Script -->
+  <script type="text/javascript">
+    var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+    (function () {
+      var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+      s1.async = true;
+      s1.src = 'https://embed.tawk.to/6896f25ca4fc79192a7bf35a/1j26q5f7g';
+      s1.charset = 'UTF-8';
+      s1.setAttribute('crossorigin', '*');
+      s0.parentNode.insertBefore(s1, s0);
+    })();
+
+    // Open chat automatically once the widget is loaded
+    Tawk_API.onLoad = function () {
+      Tawk_API.maximize(); // Automatically opens the chat
+    };
+  </script>
+  <!-- End of Tawk.to Script -->
+</body>
+</html>
